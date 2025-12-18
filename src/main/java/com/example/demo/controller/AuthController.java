@@ -1,9 +1,8 @@
-// File: src/main/java/com/example/demo/controller/AuthController.java (Updated)
+// File: src/main/java/com/example/demo/controller/AuthController.java
 package com.example.demo.controller;
 
 import com.example.demo.dto.LoginRequest;
 import com.example.demo.dto.RegisterRequest;
-import com.example.demo.dto.JwtResponse;
 import com.example.demo.entity.User;
 import com.example.demo.security.JwtUtil;
 import com.example.demo.service.UserService;
@@ -16,6 +15,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/auth")
@@ -59,12 +61,17 @@ public class AuthController {
         );
         
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        
-        // Get user details to include in response
-        User user = userService.getUserByEmail(loginRequest.getEmail());
         String jwt = jwtUtil.generateToken(loginRequest.getEmail());
         
-        JwtResponse response = new JwtResponse(jwt, user.getEmail(), user.getRole());
+        // Get user details
+        User user = userService.getUserByEmail(loginRequest.getEmail());
+        
+        // Return token as simple JSON response without JwtResponse class
+        Map<String, Object> response = new HashMap<>();
+        response.put("token", jwt);
+        response.put("email", user.getEmail());
+        response.put("role", user.getRole());
+        response.put("type", "Bearer");
         
         return ResponseEntity.ok(response);
     }
