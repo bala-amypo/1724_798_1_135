@@ -1,53 +1,54 @@
+// File: src/main/java/com/example/demo/controller/SubscriptionController.java
 package com.example.demo.controller;
 
-import com.example.eventsystem.entity.Subscription;
-import com.example.eventsystem.service.SubscriptionService;
+import com.example.demo.entity.Subscription;
+import com.example.demo.service.SubscriptionService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/subscriptions")
-@Tag(name = "Subscriptions")
+@Tag(name = "Subscriptions", description = "Subscription management endpoints")
 public class SubscriptionController {
-
+    
     private final SubscriptionService subscriptionService;
-
+    
     public SubscriptionController(SubscriptionService subscriptionService) {
         this.subscriptionService = subscriptionService;
     }
-
-    // POST /{eventId}?userId=
+    
     @PostMapping("/{eventId}")
-    public ResponseEntity<Subscription> subscribe(
-            @PathVariable Long eventId,
-            @RequestParam Long userId) {
-        return new ResponseEntity<>(
-                subscriptionService.subscribe(userId, eventId),
-                HttpStatus.CREATED
-        );
+    @Operation(summary = "Subscribe to an event")
+    public ResponseEntity<Subscription> subscribe(@RequestHeader("X-User-Id") Long userId, 
+                                                 @PathVariable Long eventId) {
+        Subscription subscription = subscriptionService.subscribe(userId, eventId);
+        return ResponseEntity.ok(subscription);
     }
-
-    // DELETE /{eventId}?userId=
+    
     @DeleteMapping("/{eventId}")
-    public ResponseEntity<Void> unsubscribe(
-            @PathVariable Long eventId,
-            @RequestParam Long userId) {
+    @Operation(summary = "Unsubscribe from an event")
+    public ResponseEntity<Void> unsubscribe(@RequestHeader("X-User-Id") Long userId, 
+                                           @PathVariable Long eventId) {
         subscriptionService.unsubscribe(userId, eventId);
         return ResponseEntity.noContent().build();
     }
-
-    // GET /user/{userId}
+    
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<Subscription>> getUserSubscriptions(
-            @PathVariable Long userId) {
-        return ResponseEntity.ok(subscriptionService.getByUser(userId));
+    @Operation(summary = "Get all subscriptions for a user")
+    public ResponseEntity<List<Subscription>> getSubscriptionsForUser(@PathVariable Long userId) {
+        List<Subscription> subscriptions = subscriptionService.getSubscriptionsForUser(userId);
+        return ResponseEntity.ok(subscriptions);
     }
-
-    // GET /check/{userId}/{eventId}
+    
     @GetMapping("/check/{userId}/{eventId}")
-    public ResponseEntity<Boolean> check(
-            @PathVariable Long userId,
-            @PathVariable Long eventId) {
-        return ResponseEntity.ok(
-                subscriptionService.isSubscribed(userId, eventId)
-        );
+    @Operation(summary = "Check subscription status")
+    public ResponseEntity<Boolean> checkSubscription(@PathVariable Long userId, 
+                                                    @PathVariable Long eventId) {
+        boolean isSubscribed = subscriptionService.checkSubscription(userId, eventId);
+        return ResponseEntity.ok(isSubscribed);
     }
 }

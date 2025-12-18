@@ -1,35 +1,37 @@
+// File: src/main/java/com/example/demo/controller/UserController.java
 package com.example.demo.controller;
 
+import com.example.demo.entity.User;
+import com.example.demo.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import com.example.eventsystem.entity.User;
-import com.example.eventsystem.service.UserService;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
-@Tag(name = "Users")
+@Tag(name = "Users", description = "User management endpoints")
 public class UserController {
-
+    
     private final UserService userService;
- 
+    
     public UserController(UserService userService) {
         this.userService = userService;
     }
-
-    // POST /register
-    @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody User user) {
-        return new ResponseEntity<>(userService.register(user), HttpStatus.CREATED);
-    }
-
-    // GET /{id}
+    
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUser(@PathVariable Long id) {
-        return ResponseEntity.ok(userService.getById(id));
+    @Operation(summary = "Get user by ID")
+    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+        User user = userService.getUserById(id);
+        return ResponseEntity.ok(user);
     }
-
-    // GET /
+    
     @GetMapping
+    @Operation(summary = "Get all users")
     public ResponseEntity<List<User>> getAllUsers() {
-        return ResponseEntity.ok(userService.getAll());
+        List<User> users = userService.getAllUsers();
+        return ResponseEntity.ok(users);
     }
 }

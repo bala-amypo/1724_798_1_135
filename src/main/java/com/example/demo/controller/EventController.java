@@ -1,49 +1,58 @@
+// File: src/main/java/com/example/demo/controller/EventController.java
 package com.example.demo.controller;
 
-import com.example.eventsystem.entity.Event;
-import com.example.eventsystem.service.EventService;
+import com.example.demo.entity.Event;
+import com.example.demo.service.EventService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/events")
-@Tag(name = "Events")
+@Tag(name = "Events", description = "Event management endpoints")
 public class EventController {
-
+    
     private final EventService eventService;
-
+    
     public EventController(EventService eventService) {
         this.eventService = eventService;
     }
-
-    // POST /
+    
     @PostMapping
+    @Operation(summary = "Create a new event")
     public ResponseEntity<Event> createEvent(@RequestBody Event event) {
-        return new ResponseEntity<>(eventService.create(event), HttpStatus.CREATED);
+        Event createdEvent = eventService.createEvent(event);
+        return ResponseEntity.ok(createdEvent);
     }
-
-    // PUT /{id}
+    
     @PutMapping("/{id}")
-    public ResponseEntity<Event> updateEvent(
-            @PathVariable Long id,
-            @RequestBody Event event) {
-        return ResponseEntity.ok(eventService.update(id, event));
+    @Operation(summary = "Update an existing event")
+    public ResponseEntity<Event> updateEvent(@PathVariable Long id, @RequestBody Event event) {
+        Event updatedEvent = eventService.updateEvent(id, event);
+        return ResponseEntity.ok(updatedEvent);
     }
-
-    // GET /{id}
+    
     @GetMapping("/{id}")
-    public ResponseEntity<Event> getEvent(@PathVariable Long id) {
-        return ResponseEntity.ok(eventService.getById(id));
+    @Operation(summary = "Get event by ID")
+    public ResponseEntity<Event> getEventById(@PathVariable Long id) {
+        Event event = eventService.getEventById(id);
+        return ResponseEntity.ok(event);
     }
-
-    // GET /active
+    
     @GetMapping("/active")
+    @Operation(summary = "Get all active events")
     public ResponseEntity<List<Event>> getActiveEvents() {
-        return ResponseEntity.ok(eventService.getActiveEvents());
+        List<Event> events = eventService.getActiveEvents();
+        return ResponseEntity.ok(events);
     }
-
-    // PATCH /{id}/deactivate
+    
     @PatchMapping("/{id}/deactivate")
-    public ResponseEntity<Void> deactivate(@PathVariable Long id) {
-        eventService.deactivate(id);
-        return ResponseEntity.noContent().build();
+    @Operation(summary = "Deactivate an event")
+    public ResponseEntity<Event> deactivateEvent(@PathVariable Long id) {
+        Event event = eventService.deactivateEvent(id);
+        return ResponseEntity.ok(event);
     }
 }

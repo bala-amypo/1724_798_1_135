@@ -1,3 +1,4 @@
+// File: src/main/java/com/example/demo/service/impl/BroadcastServiceImpl.java
 package com.example.demo.service.impl;
 
 import com.example.demo.entity.BroadcastLog;
@@ -8,45 +9,47 @@ import com.example.demo.repository.EventUpdateRepository;
 import com.example.demo.repository.SubscriptionRepository;
 import com.example.demo.service.BroadcastService;
 import org.springframework.stereotype.Service;
-
-import java.sql.Timestamp;
+import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
 public class BroadcastServiceImpl implements BroadcastService {
-
-    private final EventUpdateRepository updateRepository;
+    
+    private final BroadcastLogRepository broadcastLogRepository;
     private final SubscriptionRepository subscriptionRepository;
-    private final BroadcastLogRepository logRepository;
-
-    public BroadcastServiceImpl(EventUpdateRepository updateRepository,
-                                SubscriptionRepository subscriptionRepository,
-                                BroadcastLogRepository logRepository) {
-        this.updateRepository = updateRepository;
+    private final EventUpdateRepository eventUpdateRepository;
+    
+    public BroadcastServiceImpl(BroadcastLogRepository broadcastLogRepository,
+                               SubscriptionRepository subscriptionRepository,
+                               EventUpdateRepository eventUpdateRepository) {
+        this.broadcastLogRepository = broadcastLogRepository;
         this.subscriptionRepository = subscriptionRepository;
-        this.logRepository = logRepository;
+        this.eventUpdateRepository = eventUpdateRepository;
     }
-
+    
     @Override
+    @Transactional
     public void triggerBroadcast(Long updateId) {
-        EventUpdate update = updateRepository.findById(updateId)
-                .orElseThrow(() -> new RuntimeException("Update not found"));
-
-        List<Subscription> subscriptions =
-                subscriptionRepository.findByEventId(update.getEvent().getId());
-
-        for (Subscription sub : subscriptions) {
-            BroadcastLog log = new BroadcastLog();
-            log.setEventUpdate(update);
-            log.setSubscriber(sub.getUser());
-            log.setDeliveryStatus("SENT");
-            log.setSentAt(new Timestamp(System.currentTimeMillis()));
-            logRepository.save(log);
+        EventUpdate eventUpdate = eventUpdateRepository.findById(updateId)
+                .orElseThrow(() -> new IllegalArgumentException("EventUpdate not found"));
+        
+        List<Subscription> subscriptions = subscriptionRepository.findAll()
+                .stream()
+                .filter(sub -> sub.getEvent().getId().equals(eventUpdate.getEvent().getId()))
+                .toList();
+        
+        for (Subscription subscription : subscriptions) {
+            BroadcastLog broadcastLog = new BroadcastLog();
+            broadcastLog.setEventUpdate(eventUpdate);
+            broadcastLog.setSubscriber(subscription.getUser());
+            broadcastLog.setDeliveryStatus("SENT");
+            
+            broadcastLogRepository.save(broadcastLog);
         }
     }
-
+    
     @Override
     public List<BroadcastLog> getLogsForUpdate(Long updateId) {
-        return logRepository.findByEventUpdateId(updateId);
+        return broadcastLogRepository.findByEventUpdateId(updateId);
     }
 }
