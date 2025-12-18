@@ -23,25 +23,20 @@ public class EventUpdate {
     @Column(name = "update_type")
     private String updateType; // INFO, WARNING, CRITICAL
     
-    @Column(name = "posted_at", nullable = false, updatable = false)
-    private Timestamp postedAt;
+    // CHANGE THIS: Rename postedAt to timestamp
+    @Column(name = "timestamp", nullable = false, updatable = false)
+    private Timestamp timestamp;
     
     public EventUpdate() {
     }
     
-    // Make onCreate public
     public void onCreate() {
-        this.postedAt = Timestamp.valueOf(LocalDateTime.now());
+        this.timestamp = Timestamp.valueOf(LocalDateTime.now());
     }
     
-    // Test expects getTimestamp()
+    // Keep this method for test compatibility
     public Instant getTimestamp() {
-        return postedAt != null ? postedAt.toInstant() : null;
-    }
-    
-    // Test expects getSeverityLevel() - alias for updateType
-    public String getSeverityLevel() {
-        return updateType;
+        return timestamp != null ? timestamp.toInstant() : null;
     }
     
     // Getters and Setters
@@ -77,11 +72,12 @@ public class EventUpdate {
         this.updateType = updateType;
     }
     
-    public Timestamp getPostedAt() {
-        return postedAt;
+    // Rename getter/setter
+    public Timestamp getTimestamp() {
+        return timestamp;
     }
     
-    public void setPostedAt(Timestamp postedAt) {
-        this.postedAt = postedAt;
+    public void setTimestamp(Timestamp timestamp) {
+        this.timestamp = timestamp;
     }
 }
