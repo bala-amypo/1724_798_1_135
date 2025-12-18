@@ -1,48 +1,66 @@
-package com.example.eventsystem.entity;
+// File: src/main/java/com/example/demo/entity/Event.java
+package com.example.demo.entity;
 
 import jakarta.persistence.*;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "events")
 public class Event {
-
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    
+    @Column(nullable = false)
     private String title;
-
+    
+    @Column(columnDefinition = "TEXT")
     private String description;
-
+    
     private String location;
-
+    
     private String category;
-
-    @ManyToOne
+    
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "publisher_id", nullable = false)
     private User publisher;
-
-    // defaults to true
+    
+    @Column(name = "is_active")
     private Boolean isActive = true;
-
+    
+    @Column(name = "created_at", nullable = false, updatable = false)
     private Timestamp createdAt;
-
-    public Event() {}
-
+    
+    public Event() {
+    }
+    
+    public Event(Long id, String title, String description, String location, String category, User publisher, Boolean isActive, Timestamp createdAt) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.location = location;
+        this.category = category;
+        this.publisher = publisher;
+        this.isActive = isActive;
+        this.createdAt = createdAt;
+    }
+    
     @PrePersist
     protected void onCreate() {
-        this.createdAt = new Timestamp(System.currentTimeMillis());
+        createdAt = Timestamp.valueOf(LocalDateTime.now());
     }
-
-    // Getters & Setters
+    
+    // Getters and Setters
     public Long getId() {
         return id;
     }
-
+    
     public void setId(Long id) {
         this.id = id;
     }
-
+    
     public String getTitle() {
         return title;
     }
@@ -50,7 +68,7 @@ public class Event {
     public void setTitle(String title) {
         this.title = title;
     }
-
+    
     public String getDescription() {
         return description;
     }
@@ -58,7 +76,7 @@ public class Event {
     public void setDescription(String description) {
         this.description = description;
     }
-
+    
     public String getLocation() {
         return location;
     }
@@ -66,7 +84,7 @@ public class Event {
     public void setLocation(String location) {
         this.location = location;
     }
-
+    
     public String getCategory() {
         return category;
     }
@@ -74,7 +92,7 @@ public class Event {
     public void setCategory(String category) {
         this.category = category;
     }
-
+    
     public User getPublisher() {
         return publisher;
     }
@@ -82,7 +100,7 @@ public class Event {
     public void setPublisher(User publisher) {
         this.publisher = publisher;
     }
-
+    
     public Boolean getIsActive() {
         return isActive;
     }
@@ -90,8 +108,12 @@ public class Event {
     public void setIsActive(Boolean isActive) {
         this.isActive = isActive;
     }
-
+    
     public Timestamp getCreatedAt() {
         return createdAt;
+    }
+    
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
     }
 }
