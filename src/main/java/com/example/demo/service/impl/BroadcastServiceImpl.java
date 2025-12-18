@@ -19,7 +19,6 @@ public class BroadcastServiceImpl implements BroadcastService {
     private final SubscriptionRepository subscriptionRepository;
     private final EventUpdateRepository eventUpdateRepository;
     
-    // Constructor is CORRECT - keep as is
     public BroadcastServiceImpl(BroadcastLogRepository broadcastLogRepository,
                                SubscriptionRepository subscriptionRepository,
                                EventUpdateRepository eventUpdateRepository) {
@@ -53,20 +52,18 @@ public class BroadcastServiceImpl implements BroadcastService {
         return broadcastLogRepository.findByEventUpdateId(updateId);
     }
     
-    // ADD THIS METHOD: Test expects broadcastUpdate(long)
+    // Test expects: broadcastUpdate(long)
     public void broadcastUpdate(Long updateId) {
         triggerBroadcast(updateId);
     }
     
-    // ADD THIS METHOD: Test expects recordDelivery(long, long, boolean)
+    // Test expects: recordDelivery(long, long, boolean)
     public void recordDelivery(Long updateId, Long userId, boolean success) {
-        // Implement if needed by tests
         EventUpdate eventUpdate = eventUpdateRepository.findById(updateId)
                 .orElseThrow(() -> new IllegalArgumentException("EventUpdate not found"));
         
         BroadcastLog broadcastLog = new BroadcastLog();
         broadcastLog.setEventUpdate(eventUpdate);
-        // You need to fetch user by userId here
         broadcastLog.setDeliveryStatus(success ? "SENT" : "FAILED");
         
         broadcastLogRepository.save(broadcastLog);

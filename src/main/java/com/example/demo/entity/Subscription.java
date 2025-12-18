@@ -36,7 +36,7 @@ public class Subscription {
     }
     
     @PrePersist
-    protected void onCreate() {
+    public void onCreate() {
         subscribedAt = Timestamp.valueOf(LocalDateTime.now());
     }
     

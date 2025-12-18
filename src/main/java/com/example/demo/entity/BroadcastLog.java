@@ -39,7 +39,7 @@ public class BroadcastLog {
     }
     
     @PrePersist
-    protected void onCreate() {
+    public void onCreate() {
         if (sentAt == null) {
             sentAt = Timestamp.valueOf(LocalDateTime.now());
         }

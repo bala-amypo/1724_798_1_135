@@ -14,7 +14,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     
-    // FIX: Add PasswordEncoder parameter
+    // Test expects: UserServiceImpl(UserRepository, PasswordEncoder)
     public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -26,12 +26,11 @@ public class UserServiceImpl implements UserService {
             throw new IllegalArgumentException("Email already exists");
         }
         
-        // Encode password before saving
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
     
-    // ADD THIS METHOD: Test expects register(User) method
+    // Test expects: register(User)
     public User register(User user) {
         return registerUser(user);
     }
@@ -53,7 +52,7 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
     }
     
-    // ADD THIS METHOD: Test expects findByEmail() in UserService
+    // Test expects: findByEmail(String)
     public User findByEmail(String email) {
         return getUserByEmail(email);
     }

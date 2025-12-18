@@ -26,20 +26,26 @@ public class EventUpdate {
     @Column(name = "posted_at", nullable = false, updatable = false)
     private Timestamp postedAt;
     
+    @Column(name = "timestamp")
+    private Timestamp timestamp;
+    
     public EventUpdate() {
     }
     
-    public EventUpdate(Long id, Event event, String updateContent, String updateType, Timestamp postedAt) {
+    public EventUpdate(Long id, Event event, String updateContent, String updateType, 
+                      Timestamp postedAt, Timestamp timestamp) {
         this.id = id;
         this.event = event;
         this.updateContent = updateContent;
         this.updateType = updateType;
         this.postedAt = postedAt;
+        this.timestamp = timestamp;
     }
     
     @PrePersist
-    protected void onCreate() {
+    public void onCreate() {
         postedAt = Timestamp.valueOf(LocalDateTime.now());
+        timestamp = postedAt;
     }
     
     // Getters and Setters
@@ -81,5 +87,24 @@ public class EventUpdate {
     
     public void setPostedAt(Timestamp postedAt) {
         this.postedAt = postedAt;
+    }
+    
+    // Test expects: getTimestamp()
+    public Timestamp getTimestamp() {
+        return timestamp;
+    }
+    
+    public void setTimestamp(Timestamp timestamp) {
+        this.timestamp = timestamp;
+    }
+    
+    // Test expects: getSeverityLevel()
+    public String getSeverityLevel() {
+        return updateType;
+    }
+    
+    // Test expects: setSeverityLevel(String)
+    public void setSeverityLevel(String severityLevel) {
+        this.updateType = severityLevel;
     }
 }

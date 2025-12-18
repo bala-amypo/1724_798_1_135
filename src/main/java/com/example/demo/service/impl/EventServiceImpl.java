@@ -12,9 +12,9 @@ import java.util.List;
 public class EventServiceImpl implements EventService {
     
     private final EventRepository eventRepository;
-    private final UserRepository userRepository; // ADDED
+    private final UserRepository userRepository;
     
-    // FIX: Add UserRepository parameter
+    // Test expects: EventServiceImpl(EventRepository, UserRepository)
     public EventServiceImpl(EventRepository eventRepository, UserRepository userRepository) {
         this.eventRepository = eventRepository;
         this.userRepository = userRepository;
@@ -51,7 +51,7 @@ public class EventServiceImpl implements EventService {
                 .orElseThrow(() -> new IllegalArgumentException("Event not found"));
     }
     
-    // ADD THIS METHOD: Test expects getById(long)
+    // Test expects: getById(long)
     public Event getById(Long id) {
         return getEventById(id);
     }

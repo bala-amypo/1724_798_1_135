@@ -15,9 +15,9 @@ public class EventUpdateServiceImpl implements EventUpdateService {
     
     private final EventUpdateRepository eventUpdateRepository;
     private final EventRepository eventRepository;
-    private final BroadcastService broadcastService; // WAS MISSING
+    private final BroadcastService broadcastService;
     
-    // FIX: Add BroadcastService parameter
+    // Test expects: EventUpdateServiceImpl(EventUpdateRepository, EventRepository, BroadcastService)
     public EventUpdateServiceImpl(EventUpdateRepository eventUpdateRepository,
                                  EventRepository eventRepository,
                                  BroadcastService broadcastService) {
@@ -29,13 +29,10 @@ public class EventUpdateServiceImpl implements EventUpdateService {
     @Override
     @Transactional
     public EventUpdate publishUpdate(EventUpdate update) {
-        // Verify event exists
         eventRepository.findById(update.getEvent().getId())
                 .orElseThrow(() -> new IllegalArgumentException("Event not found"));
         
         EventUpdate savedUpdate = eventUpdateRepository.save(update);
-        
-        // Trigger broadcast
         broadcastService.triggerBroadcast(savedUpdate.getId());
         
         return savedUpdate;
