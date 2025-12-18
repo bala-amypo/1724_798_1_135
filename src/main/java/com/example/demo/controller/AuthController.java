@@ -26,22 +26,45 @@ public class AuthController {
     
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody RegisterRequest request) {
+        // Validate required fields
+        if (request.getEmail() == null || request.getEmail().trim().isEmpty()) {
+            throw new IllegalArgumentException("Email is required");
+        }
+        if (request.getPassword() == null || request.getPassword().trim().isEmpty()) {
+            throw new IllegalArgumentException("Password is required");
+        }
+        if (request.getFullName() == null || request.getFullName().trim().isEmpty()) {
+            throw new IllegalArgumentException("Full name is required");
+        }
+        if (request.getRole() == null || request.getRole().trim().isEmpty()) {
+            throw new IllegalArgumentException("Role is required");
+        }
+        
+        // Check for existing user
         User existingUser = userService.findByEmail(request.getEmail());
         if (existingUser != null) {
             throw new IllegalArgumentException("Email already exists");
         }
         
+        // Validate role
+        String roleStr = request.getRole().toUpperCase();
+        Role role;
+        try {
+            role = Role.valueOf(roleStr);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Invalid role. Must be ADMIN, PUBLISHER, or SUBSCRIBER");
+        }
+        
+        // Create new user
         User user = new User();
         user.setFullName(request.getFullName());
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword()));
-        
-        // Convert string role to Role enum
-        user.setRole(Role.valueOf(request.getRole().toUpperCase()));
+        user.setRole(role);
         
         User savedUser = userService.registerUser(user);
         
-        // Generate token with correct parameters
+        // Generate token
         String token = jwtUtil.generateToken(
             savedUser.getId(),
             savedUser.getEmail(),
@@ -53,12 +76,20 @@ public class AuthController {
     
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginRequest request) {
+        // Validate required fields
+        if (request.getEmail() == null || request.getEmail().trim().isEmpty()) {
+            throw new IllegalArgumentException("Email is required");
+        }
+        if (request.getPassword() == null || request.getPassword().trim().isEmpty()) {
+            throw new IllegalArgumentException("Password is required");
+        }
+        
         User user = userService.findByEmail(request.getEmail());
         if (user == null || !passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new IllegalArgumentException("Invalid credentials");
         }
         
-        // Generate token with correct parameters
+        // Generate token
         String token = jwtUtil.generateToken(
             user.getId(),
             user.getEmail(),
