@@ -13,8 +13,20 @@ import java.util.function.Function;
 @Component
 public class JwtUtil {
     
-    private final String SECRET_KEY = "your-secret-key-change-this-in-production-12345";
+    private String SECRET_KEY = "your-secret-key-change-this-in-production-12345";
+    private long validityInMs = 3600000; // 1 hour
     
+    // No-arg constructor (for Spring)
+    public JwtUtil() {
+    }
+    
+    // ADD: Constructor for test JwtUtil(String, int)
+    public JwtUtil(String secret, int validityInSeconds) {
+        this.SECRET_KEY = secret;
+        this.validityInMs = validityInSeconds * 1000L;
+    }
+    
+    // ... rest of methods remain the same
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
@@ -39,13 +51,11 @@ public class JwtUtil {
         return extractExpiration(token).before(new Date());
     }
     
-    // Original method
     public String generateToken(String username) {
         Map<String, Object> claims = new HashMap<>();
         return createToken(claims, username);
     }
     
-    // Test expects: generateToken(Long, String, String)
     public String generateToken(Long userId, String username, String role) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("userId", userId);
@@ -58,35 +68,30 @@ public class JwtUtil {
                 .setClaims(claims)
                 .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
+                .setExpiration(new Date(System.currentTimeMillis() + validityInMs))
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
                 .compact();
     }
     
-    // Original validateToken
     public Boolean validateToken(String token, String username) {
         final String extractedUsername = extractUsername(token);
         return (extractedUsername.equals(username) && !isTokenExpired(token));
     }
     
-    // Test expects: validateToken(String) - single parameter
     public Boolean validateToken(String token) {
         return !isTokenExpired(token);
     }
     
-    // Test expects: getUserIdFromToken(String)
     public Long getUserIdFromToken(String token) {
         Claims claims = extractAllClaims(token);
         return claims.get("userId", Long.class);
     }
     
-    // Test expects: getRoleFromToken(String)
     public String getRoleFromToken(String token) {
         Claims claims = extractAllClaims(token);
         return claims.get("role", String.class);
     }
     
-    // Test expects: getUsernameFromToken(String)
     public String getUsernameFromToken(String token) {
         return extractUsername(token);
     }
