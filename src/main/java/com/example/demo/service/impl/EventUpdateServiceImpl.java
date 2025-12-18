@@ -6,6 +6,7 @@ import com.example.demo.repository.EventUpdateRepository;
 import com.example.demo.repository.EventRepository;
 import com.example.demo.service.BroadcastService;
 import com.example.demo.service.EventUpdateService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
@@ -17,20 +18,8 @@ public class EventUpdateServiceImpl implements EventUpdateService {
     private final EventRepository eventRepository;
     private final BroadcastService broadcastService;
     
-    // ORIGINAL: Needs 3 parameters
-    // public EventUpdateServiceImpl(EventUpdateRepository eventUpdateRepository,
-    //                              EventRepository eventRepository,
-    //                              BroadcastService broadcastService) {
-    
-    // FIX: Create an overloaded constructor with 2 parameters for the test
-    public EventUpdateServiceImpl(EventUpdateRepository eventUpdateRepository,
-                                 EventRepository eventRepository) {
-        this.eventUpdateRepository = eventUpdateRepository;
-        this.eventRepository = eventRepository;
-        this.broadcastService = null; // Will be set separately
-    }
-    
-    // Keep the original constructor too
+    // Primary constructor with @Autowired
+    @Autowired
     public EventUpdateServiceImpl(EventUpdateRepository eventUpdateRepository,
                                  EventRepository eventRepository,
                                  BroadcastService broadcastService) {
@@ -39,7 +28,21 @@ public class EventUpdateServiceImpl implements EventUpdateService {
         this.broadcastService = broadcastService;
     }
     
-    // ... rest of the class remains the same
+    // Add this constructor for tests (2 parameters)
+    public EventUpdateServiceImpl(EventUpdateRepository eventUpdateRepository,
+                                 EventRepository eventRepository) {
+        this.eventUpdateRepository = eventUpdateRepository;
+        this.eventRepository = eventRepository;
+        this.broadcastService = null;
+    }
+    
+    // Add no-argument constructor
+    public EventUpdateServiceImpl() {
+        this.eventUpdateRepository = null;
+        this.eventRepository = null;
+        this.broadcastService = null;
+    }
+    
     @Override
     @Transactional
     public EventUpdate publishUpdate(EventUpdate update) {
