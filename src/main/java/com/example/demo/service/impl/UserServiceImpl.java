@@ -1,12 +1,13 @@
-// File: src/main/java/com/example/demo/service/impl/UserServiceImpl.java
 package com.example.demo.service.impl;
 
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -14,7 +15,7 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     
-    // Test expects: UserServiceImpl(UserRepository, PasswordEncoder)
+    @Autowired
     public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -22,16 +23,19 @@ public class UserServiceImpl implements UserService {
     
     @Override
     public User registerUser(User user) {
+        // Check for duplicate email (use existsByEmail from repository)
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new IllegalArgumentException("Email already exists");
         }
-        
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        // Set timestamps
+        user.onCreate();
+        // Save and return
         return userRepository.save(user);
     }
     
-    // Test expects: register(User)
+    @Override
     public User register(User user) {
+        // Alias for test compatibility
         return registerUser(user);
     }
     
@@ -48,12 +52,15 @@ public class UserServiceImpl implements UserService {
     
     @Override
     public User getUserByEmail(String email) {
+        // This method throws an exception if user not found (for other use cases)
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
     }
     
-    // Test expects: findByEmail(String)
+    @Override
     public User findByEmail(String email) {
-        return getUserByEmail(email);
+        // *** CRITICAL FIX: Return null if user doesn't exist, don't throw! ***
+        // This is what AuthController.register() expects for duplicate check.
+        return userRepository.findByEmail(email).orElse(null);
     }
 }
