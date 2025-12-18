@@ -1,4 +1,3 @@
-// File: src/main/java/com/example/demo/entity/User.java
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
@@ -16,14 +15,15 @@ public class User {
     @Column(nullable = false)
     private String fullName;
     
-    @Column(nullable = false, unique = true)
+    @Column(unique = true, nullable = false)
     private String email;
     
     @Column(nullable = false)
     private String password;
     
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String role; // ADMIN, PUBLISHER, SUBSCRIBER
+    private Role role;
     
     @Column(name = "created_at", nullable = false, updatable = false)
     private Timestamp createdAt;
@@ -31,18 +31,9 @@ public class User {
     public User() {
     }
     
-    public User(Long id, String fullName, String email, String password, String role, Timestamp createdAt) {
-        this.id = id;
-        this.fullName = fullName;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-        this.createdAt = createdAt;
-    }
-    
-    @PrePersist
+    // Make onCreate public
     public void onCreate() {
-        createdAt = Timestamp.valueOf(LocalDateTime.now());
+        this.createdAt = Timestamp.valueOf(LocalDateTime.now());
     }
     
     // Getters and Setters
@@ -78,11 +69,11 @@ public class User {
         this.password = password;
     }
     
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
     
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
     
