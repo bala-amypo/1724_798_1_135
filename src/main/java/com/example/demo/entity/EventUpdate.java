@@ -33,15 +33,10 @@ public class EventUpdate {
         this.timestamp = Timestamp.valueOf(LocalDateTime.now());
     }
     
-    // For the test: return Instant
-    public Instant getTimestamp() {
-        return timestamp != null ? timestamp.toInstant() : null;
-    }
-    
-    // For JPA/internal use: return Timestamp
-    public Timestamp getTimestampValue() {
-        return timestamp;
-    }
+    // Remove this duplicate method - it's causing the error
+    // public Instant getTimestamp() {
+    //     return timestamp != null ? timestamp.toInstant() : null;
+    // }
     
     // Getters and Setters
     public Long getId() {
@@ -74,6 +69,16 @@ public class EventUpdate {
     
     public void setUpdateType(String updateType) {
         this.updateType = updateType;
+    }
+    
+    // Keep only this getter for Timestamp
+    public Timestamp getTimestamp() {
+        return timestamp;
+    }
+    
+    // Test expects getTimestamp() that returns Instant? If so, rename:
+    public Instant getTimestampAsInstant() {
+        return timestamp != null ? timestamp.toInstant() : null;
     }
     
     public void setTimestamp(Timestamp timestamp) {
