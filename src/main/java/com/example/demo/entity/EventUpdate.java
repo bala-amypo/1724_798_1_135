@@ -23,7 +23,6 @@ public class EventUpdate {
     @Column(name = "update_type")
     private String updateType; // INFO, WARNING, CRITICAL
     
-    // CHANGE THIS: Rename postedAt to timestamp
     @Column(name = "timestamp", nullable = false, updatable = false)
     private Timestamp timestamp;
     
@@ -34,9 +33,14 @@ public class EventUpdate {
         this.timestamp = Timestamp.valueOf(LocalDateTime.now());
     }
     
-    // Keep this method for test compatibility
+    // For the test: return Instant
     public Instant getTimestamp() {
         return timestamp != null ? timestamp.toInstant() : null;
+    }
+    
+    // For JPA/internal use: return Timestamp
+    public Timestamp getTimestampValue() {
+        return timestamp;
     }
     
     // Getters and Setters
@@ -70,11 +74,6 @@ public class EventUpdate {
     
     public void setUpdateType(String updateType) {
         this.updateType = updateType;
-    }
-    
-    // Rename getter/setter
-    public Timestamp getTimestamp() {
-        return timestamp;
     }
     
     public void setTimestamp(Timestamp timestamp) {
