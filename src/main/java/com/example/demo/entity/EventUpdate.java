@@ -18,8 +18,10 @@ public class EventUpdate {
     @Column(columnDefinition = "TEXT")
     private String updateContent;
     
-    @Column(name = "update_type")
-    private String updateType; // INFO, WARNING, CRITICAL
+    // Use enum type
+    @Enumerated(EnumType.STRING)
+    @Column(name = "severity_level")
+    private SeverityLevel severityLevel;
     
     @Column(name = "timestamp", nullable = false, updatable = false)
     private Instant timestamp;
@@ -29,14 +31,6 @@ public class EventUpdate {
     
     public void onCreate() {
         this.timestamp = Instant.now();
-    }
-    
-    public Instant getTimestamp() {
-        return timestamp;
-    }
-    
-    public void setTimestamp(Instant timestamp) {
-        this.timestamp = timestamp;
     }
     
     // Getters and Setters
@@ -64,11 +58,29 @@ public class EventUpdate {
         this.updateContent = updateContent;
     }
     
+    // Keep for backward compatibility
     public String getUpdateType() {
-        return updateType;
+        return severityLevel != null ? severityLevel.name() : null;
     }
     
     public void setUpdateType(String updateType) {
-        this.updateType = updateType;
+        this.severityLevel = SeverityLevel.valueOf(updateType);
+    }
+    
+    // Test expects getSeverityLevel()
+    public SeverityLevel getSeverityLevel() {
+        return severityLevel;
+    }
+    
+    public void setSeverityLevel(SeverityLevel severityLevel) {
+        this.severityLevel = severityLevel;
+    }
+    
+    public Instant getTimestamp() {
+        return timestamp;
+    }
+    
+    public void setTimestamp(Instant timestamp) {
+        this.timestamp = timestamp;
     }
 }
