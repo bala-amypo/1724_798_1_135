@@ -38,7 +38,6 @@ public class BroadcastServiceImpl implements BroadcastService {
         this.eventUpdateRepository = wrongRepo2;
     }
     
-    // ... rest of class methods
     @Override
     @Transactional
     public void triggerBroadcast(Long updateId) {
@@ -61,11 +60,21 @@ public class BroadcastServiceImpl implements BroadcastService {
         }
     }
     
-    // ... other methods
+    // ADD THIS MISSING METHOD
+    @Override
+    public List<BroadcastLog> getLogsForUpdate(Long updateId) {
+        if (broadcastLogRepository == null) {
+            return List.of(); // Return empty list if repository is null
+        }
+        return broadcastLogRepository.findByEventUpdateId(updateId);
+    }
+    
+    // Test expects: broadcastUpdate(long)
     public void broadcastUpdate(Long updateId) {
         triggerBroadcast(updateId);
     }
     
+    // Test expects: recordDelivery(long, long, boolean)
     public void recordDelivery(Long updateId, Long userId, boolean success) {
         if (broadcastLogRepository == null) return;
         

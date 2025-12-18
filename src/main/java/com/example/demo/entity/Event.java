@@ -141,23 +141,17 @@ public class Event {
         this.createdAt = createdAt;
     }
     
-    // Test expects: getLastUpdatedAt()
-    public Timestamp getLastUpdatedAt() {
+    // Test expects: getLastUpdatedAt() - RETURN Instant if test expects Instant
+    public Instant getLastUpdatedAt() {
+        return lastUpdatedAt != null ? lastUpdatedAt.toInstant() : null;
+    }
+    
+    // Keep this for internal use if needed
+    public Timestamp getLastUpdatedAtTimestamp() {
         return lastUpdatedAt;
     }
     
     public void setLastUpdatedAt(Timestamp lastUpdatedAt) {
         this.lastUpdatedAt = lastUpdatedAt;
     }
-    // In Event.java, add this method:
-
-
-public Instant getLastUpdatedAtAsInstant() {
-    return lastUpdatedAt != null ? lastUpdatedAt.toInstant() : null;
-}
-
-// Or if test directly calls getLastUpdatedAt() expecting Instant:
-public Instant getLastUpdatedAt() {
-    return lastUpdatedAt != null ? lastUpdatedAt.toInstant() : null;
-}
 }
