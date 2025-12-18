@@ -1,8 +1,9 @@
-// File: src/main/java/com/example/demo/controller/AuthController.java
+// File: src/main/java/com/example/demo/controller/AuthController.java (Updated)
 package com.example.demo.controller;
 
 import com.example.demo.dto.LoginRequest;
 import com.example.demo.dto.RegisterRequest;
+import com.example.demo.dto.JwtResponse;
 import com.example.demo.entity.User;
 import com.example.demo.security.JwtUtil;
 import com.example.demo.service.UserService;
@@ -58,8 +59,13 @@ public class AuthController {
         );
         
         SecurityContextHolder.getContext().setAuthentication(authentication);
+        
+        // Get user details to include in response
+        User user = userService.getUserByEmail(loginRequest.getEmail());
         String jwt = jwtUtil.generateToken(loginRequest.getEmail());
         
-        return ResponseEntity.ok(jwt);
+        JwtResponse response = new JwtResponse(jwt, user.getEmail(), user.getRole());
+        
+        return ResponseEntity.ok(response);
     }
 }
