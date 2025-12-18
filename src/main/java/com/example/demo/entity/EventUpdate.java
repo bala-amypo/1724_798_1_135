@@ -1,8 +1,6 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.time.Instant;
 
 @Entity
@@ -24,19 +22,22 @@ public class EventUpdate {
     private String updateType; // INFO, WARNING, CRITICAL
     
     @Column(name = "timestamp", nullable = false, updatable = false)
-    private Timestamp timestamp;
+    private Instant timestamp;
     
     public EventUpdate() {
     }
     
     public void onCreate() {
-        this.timestamp = Timestamp.valueOf(LocalDateTime.now());
+        this.timestamp = Instant.now();
     }
     
-    // Remove this duplicate method - it's causing the error
-    // public Instant getTimestamp() {
-    //     return timestamp != null ? timestamp.toInstant() : null;
-    // }
+    public Instant getTimestamp() {
+        return timestamp;
+    }
+    
+    public void setTimestamp(Instant timestamp) {
+        this.timestamp = timestamp;
+    }
     
     // Getters and Setters
     public Long getId() {
@@ -69,19 +70,5 @@ public class EventUpdate {
     
     public void setUpdateType(String updateType) {
         this.updateType = updateType;
-    }
-    
-    // Keep only this getter for Timestamp
-    public Timestamp getTimestamp() {
-        return timestamp;
-    }
-    
-    // Test expects getTimestamp() that returns Instant? If so, rename:
-    public Instant getTimestampAsInstant() {
-        return timestamp != null ? timestamp.toInstant() : null;
-    }
-    
-    public void setTimestamp(Timestamp timestamp) {
-        this.timestamp = timestamp;
     }
 }
