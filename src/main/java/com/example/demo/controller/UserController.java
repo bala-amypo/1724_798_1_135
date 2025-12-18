@@ -1,4 +1,5 @@
-package com.example.eventsystem.controller;
+package com.example.demo.controller;
+
 
 import com.example.eventsystem.entity.User;
 import com.example.eventsystem.service.UserService;
