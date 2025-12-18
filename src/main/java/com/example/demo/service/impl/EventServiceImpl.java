@@ -3,6 +3,7 @@ package com.example.demo.service.impl;
 
 import com.example.demo.entity.Event;
 import com.example.demo.repository.EventRepository;
+import com.example.demo.repository.UserRepository;
 import com.example.demo.service.EventService;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -11,9 +12,12 @@ import java.util.List;
 public class EventServiceImpl implements EventService {
     
     private final EventRepository eventRepository;
+    private final UserRepository userRepository; // ADDED
     
-    public EventServiceImpl(EventRepository eventRepository) {
+    // FIX: Add UserRepository parameter
+    public EventServiceImpl(EventRepository eventRepository, UserRepository userRepository) {
         this.eventRepository = eventRepository;
+        this.userRepository = userRepository;
     }
     
     @Override
@@ -45,6 +49,11 @@ public class EventServiceImpl implements EventService {
     public Event getEventById(Long id) {
         return eventRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Event not found"));
+    }
+    
+    // ADD THIS METHOD: Test expects getById(long)
+    public Event getById(Long id) {
+        return getEventById(id);
     }
     
     @Override
