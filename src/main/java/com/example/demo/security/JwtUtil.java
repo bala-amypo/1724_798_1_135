@@ -12,7 +12,6 @@ public class JwtUtil {
     private final String secret;
     private final long validityInMs;
     
-    // Constructor with @Value annotations
     public JwtUtil(
             @Value("${jwt.secret:defaultSecretKey1234567890}") String secret,
             @Value("${jwt.validity-in-ms:86400000}") long validityInMs) {
@@ -21,25 +20,22 @@ public class JwtUtil {
     }
     
     public String generateToken(Long userId, String username, String role) {
-        Claims claims = Jwts.claims().setSubject(username);
-        claims.put("userId", userId);
-        claims.put("role", role);
-        
-        Date now = new Date();
-        Date validity = new Date(now.getTime() + validityInMs);
-        
-        return Jwts.builder()
-                .setClaims(claims)
-                .setIssuedAt(now)
-                .setExpiration(validity)
-                .signWith(SignatureAlgorithm.HS256, secret)
-                .compact();
+        // ... existing code ...
     }
     
-    // Test expects: validateToken(String token, String username)
+    // CHANGE: Add method with ONE parameter for test
+    public boolean validateToken(String token) {
+        try {
+            Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    
+    // Keep original for compatibility if needed
     public boolean validateToken(String token, String username) {
-        String tokenUsername = getUsernameFromToken(token);
-        return (tokenUsername.equals(username) && !isTokenExpired(token));
+        return validateToken(token) && getUsernameFromToken(token).equals(username);
     }
     
     public Long getUserIdFromToken(String token) {
