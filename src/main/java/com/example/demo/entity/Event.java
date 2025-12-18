@@ -4,6 +4,7 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.Instant;
 
 @Entity
 @Table(name = "events")
@@ -148,4 +149,15 @@ public class Event {
     public void setLastUpdatedAt(Timestamp lastUpdatedAt) {
         this.lastUpdatedAt = lastUpdatedAt;
     }
+    // In Event.java, add this method:
+
+
+public Instant getLastUpdatedAtAsInstant() {
+    return lastUpdatedAt != null ? lastUpdatedAt.toInstant() : null;
+}
+
+// Or if test directly calls getLastUpdatedAt() expecting Instant:
+public Instant getLastUpdatedAt() {
+    return lastUpdatedAt != null ? lastUpdatedAt.toInstant() : null;
+}
 }

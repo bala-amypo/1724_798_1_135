@@ -7,4 +7,8 @@ import java.util.List;
 public interface BroadcastService {
     void triggerBroadcast(Long updateId);
     List<BroadcastLog> getLogsForUpdate(Long updateId);
+    
+    // ADD: Test expects these methods
+    void broadcastUpdate(Long updateId);
+    void recordDelivery(Long updateId, Long userId, boolean success);
 }
