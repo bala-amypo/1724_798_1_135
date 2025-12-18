@@ -15,7 +15,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -66,7 +65,7 @@ public class AuthController {
         // Get user details
         User user = userService.getUserByEmail(loginRequest.getEmail());
         
-        // Return token as simple JSON response without JwtResponse class
+        // Return response
         Map<String, Object> response = new HashMap<>();
         response.put("token", jwt);
         response.put("email", user.getEmail());
