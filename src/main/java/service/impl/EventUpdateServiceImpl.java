@@ -28,13 +28,11 @@ public class EventUpdateServiceImpl implements EventUpdateService {
     @Override
     @Transactional
     public EventUpdate publishUpdate(EventUpdate update) {
-        // Verify event exists
         eventRepository.findById(update.getEvent().getId())
                 .orElseThrow(() -> new IllegalArgumentException("Event not found"));
         
         EventUpdate savedUpdate = eventUpdateRepository.save(update);
         
-        // Trigger broadcast
         broadcastService.triggerBroadcast(savedUpdate.getId());
         
         return savedUpdate;

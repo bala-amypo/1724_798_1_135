@@ -33,18 +33,17 @@ public class BroadcastServiceImpl implements BroadcastService {
         EventUpdate eventUpdate = eventUpdateRepository.findById(updateId)
                 .orElseThrow(() -> new IllegalArgumentException("EventUpdate not found"));
         
-        List<Subscription> subscriptions = subscriptionRepository.findAll()
-                .stream()
-                .filter(sub -> sub.getEvent().getId().equals(eventUpdate.getEvent().getId()))
-                .toList();
+        List<Subscription> subscriptions = subscriptionRepository.findAll();
         
         for (Subscription subscription : subscriptions) {
-            BroadcastLog broadcastLog = new BroadcastLog();
-            broadcastLog.setEventUpdate(eventUpdate);
-            broadcastLog.setSubscriber(subscription.getUser());
-            broadcastLog.setDeliveryStatus("SENT");
-            
-            broadcastLogRepository.save(broadcastLog);
+            if (subscription.getEvent().getId().equals(eventUpdate.getEvent().getId())) {
+                BroadcastLog broadcastLog = new BroadcastLog();
+                broadcastLog.setEventUpdate(eventUpdate);
+                broadcastLog.setSubscriber(subscription.getUser());
+                broadcastLog.setDeliveryStatus("SENT");
+                
+                broadcastLogRepository.save(broadcastLog);
+            }
         }
     }
     
