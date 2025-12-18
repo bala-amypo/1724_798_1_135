@@ -20,10 +20,20 @@ public class JwtUtil {
     }
     
     public String generateToken(Long userId, String username, String role) {
-        // ... existing code ...
+        Claims claims = Jwts.claims().setSubject(username);
+        claims.put("userId", userId);
+        claims.put("role", role);
+        
+        Date now = new Date();
+        Date validity = new Date(now.getTime() + validityInMs);
+        
+        return Jwts.builder()
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(validity)
+                .signWith(SignatureAlgorithm.HS256, secret)
+                .compact();
     }
-    
-    // CHANGE: Add method with ONE parameter for test
     public boolean validateToken(String token) {
         try {
             Jwts.parser().setSigningKey(secret).parseClaimsJws(token);
@@ -33,9 +43,10 @@ public class JwtUtil {
         }
     }
     
-    // Keep original for compatibility if needed
+    // Test expects: validateToken(String token, String username)
     public boolean validateToken(String token, String username) {
-        return validateToken(token) && getUsernameFromToken(token).equals(username);
+        String tokenUsername = getUsernameFromToken(token);
+        return (tokenUsername.equals(username) && !isTokenExpired(token));
     }
     
     public Long getUserIdFromToken(String token) {

@@ -9,6 +9,6 @@ import java.util.List;
 public interface EventUpdateRepository extends JpaRepository<EventUpdate, Long> {
     List<EventUpdate> findByEventId(Long eventId);
     
-    // Test expects this method
+    // ADD THIS: Test expects this method
     List<EventUpdate> findByEventIdOrderByPostedAtAsc(Long eventId);
 }
