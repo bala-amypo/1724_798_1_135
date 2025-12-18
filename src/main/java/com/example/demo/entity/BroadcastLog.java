@@ -1,4 +1,3 @@
-// File: src/main/java/com/example/demo/entity/BroadcastLog.java
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
@@ -21,28 +20,14 @@ public class BroadcastLog {
     @JoinColumn(name = "subscriber_id", nullable = false)
     private User subscriber;
     
-    @Column(name = "delivery_status", nullable = false)
-    private String deliveryStatus = "SENT"; // PENDING, SENT, FAILED
+    @Enumerated(EnumType.STRING)
+    @Column(name = "delivery_status")
+    private DeliveryStatus deliveryStatus;
     
-    @Column(name = "sent_at", nullable = false)
+    @Column(name = "sent_at")
     private Timestamp sentAt;
     
     public BroadcastLog() {
-    }
-    
-    public BroadcastLog(Long id, EventUpdate eventUpdate, User subscriber, String deliveryStatus, Timestamp sentAt) {
-        this.id = id;
-        this.eventUpdate = eventUpdate;
-        this.subscriber = subscriber;
-        this.deliveryStatus = deliveryStatus;
-        this.sentAt = sentAt;
-    }
-    
-    @PrePersist
-    public void onCreate() {
-        if (sentAt == null) {
-            sentAt = Timestamp.valueOf(LocalDateTime.now());
-        }
     }
     
     // Getters and Setters
@@ -70,11 +55,11 @@ public class BroadcastLog {
         this.subscriber = subscriber;
     }
     
-    public String getDeliveryStatus() {
+    public DeliveryStatus getDeliveryStatus() {
         return deliveryStatus;
     }
     
-    public void setDeliveryStatus(String deliveryStatus) {
+    public void setDeliveryStatus(DeliveryStatus deliveryStatus) {
         this.deliveryStatus = deliveryStatus;
     }
     
