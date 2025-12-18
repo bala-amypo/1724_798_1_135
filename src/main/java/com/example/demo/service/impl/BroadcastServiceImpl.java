@@ -3,6 +3,7 @@ package com.example.demo.service.impl;
 import com.example.demo.entity.BroadcastLog;
 import com.example.demo.entity.EventUpdate;
 import com.example.demo.entity.Subscription;
+import com.example.demo.entity.DeliveryStatus;
 import com.example.demo.repository.BroadcastLogRepository;
 import com.example.demo.repository.SubscriptionRepository;
 import com.example.demo.repository.EventUpdateRepository;
@@ -19,7 +20,6 @@ public class BroadcastServiceImpl implements BroadcastService {
     private final SubscriptionRepository subscriptionRepository;
     private final BroadcastLogRepository broadcastLogRepository;
     
-    // Match the test's expected constructor signature
     @Autowired
     public BroadcastServiceImpl(
             EventUpdateRepository eventUpdateRepository,
@@ -43,7 +43,7 @@ public class BroadcastServiceImpl implements BroadcastService {
                 BroadcastLog broadcastLog = new BroadcastLog();
                 broadcastLog.setEventUpdate(eventUpdate);
                 broadcastLog.setSubscriber(subscription.getUser());
-                broadcastLog.setDeliveryStatus("SENT");
+                broadcastLog.setDeliveryStatus(DeliveryStatus.SENT);  // Use enum
                 
                 broadcastLogRepository.save(broadcastLog);
             }
@@ -67,7 +67,8 @@ public class BroadcastServiceImpl implements BroadcastService {
         
         BroadcastLog broadcastLog = new BroadcastLog();
         broadcastLog.setEventUpdate(eventUpdate);
-        broadcastLog.setDeliveryStatus(success ? "SENT" : "FAILED");
+        // Use enum
+        broadcastLog.setDeliveryStatus(success ? DeliveryStatus.SENT : DeliveryStatus.FAILED);
         
         broadcastLogRepository.save(broadcastLog);
     }

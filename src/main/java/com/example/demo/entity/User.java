@@ -31,7 +31,6 @@ public class User {
     public User() {
     }
     
-    // Make onCreate public
     public void onCreate() {
         this.createdAt = Timestamp.valueOf(LocalDateTime.now());
     }
@@ -75,6 +74,11 @@ public class User {
     
     public void setRole(Role role) {
         this.role = role;
+    }
+    
+    // For compatibility with string-based role setting
+    public void setRole(String role) {
+        this.role = Role.valueOf(role.toUpperCase());
     }
     
     public Timestamp getCreatedAt() {

@@ -1,37 +1,12 @@
-// File: src/main/java/com/example/demo/dto/RegisterRequest.java
 package com.example.demo.dto;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
-
 public class RegisterRequest {
-    
-    @NotBlank(message = "Full name is required")
     private String fullName;
-    
-    @NotBlank(message = "Email is required")
-    @Email(message = "Invalid email format")
     private String email;
-    
-    @NotBlank(message = "Password is required")
-    @Size(min = 6, message = "Password must be at least 6 characters")
     private String password;
+    private String role;  // String, not Role enum
     
-    @NotBlank(message = "Role is required")
-    private String role; // ADMIN, PUBLISHER, SUBSCRIBER
-    
-    public RegisterRequest() {
-    }
-    
-    public RegisterRequest(String fullName, String email, String password, String role) {
-        this.fullName = fullName;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-    }
-    
-    // Getters and Setters
+    // Getters and setters
     public String getFullName() {
         return fullName;
     }
