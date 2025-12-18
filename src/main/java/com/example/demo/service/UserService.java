@@ -6,14 +6,9 @@ import java.util.List;
 
 public interface UserService {
     User registerUser(User user);
-    
-    // ADD: Test expects register(User)
-    User register(User user);
-    
+    User register(User user); // Test expects this
     User getUserById(Long id);
     List<User> getAllUsers();
     User getUserByEmail(String email);
-    
-    // ADD: Test expects findByEmail(String)
-    User findByEmail(String email);
+    User findByEmail(String email); // Test expects this
 }

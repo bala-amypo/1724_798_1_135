@@ -8,10 +8,7 @@ public interface EventService {
     Event createEvent(Event event);
     Event updateEvent(Long id, Event event);
     Event getEventById(Long id);
-    
-    // ADD THIS: Test expects getById(long)
-    Event getById(Long id);
-    
+    Event getById(Long id); // Test expects this
     List<Event> getActiveEvents();
     Event deactivateEvent(Long id);
 }

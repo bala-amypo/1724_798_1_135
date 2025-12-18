@@ -10,7 +10,7 @@ public interface SubscriptionService {
     List<Subscription> getSubscriptionsForUser(Long userId);
     boolean checkSubscription(Long userId, Long eventId);
     
-    // ADD: Test expects these methods
+    // Test expects these
     boolean isSubscribed(Long userId, Long eventId);
     List<Subscription> getUserSubscriptions(Long userId);
 }
