@@ -4,7 +4,7 @@ public class RegisterRequest {
     private String fullName;
     private String email;
     private String password;
-    private String role;  // String, not Role enum
+    private String role;
     
     // Getters and setters
     public String getFullName() {

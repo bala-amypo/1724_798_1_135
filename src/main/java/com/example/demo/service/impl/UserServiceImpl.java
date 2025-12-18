@@ -23,13 +23,15 @@ public class UserServiceImpl implements UserService {
     
     @Override
     public User registerUser(User user) {
-        // Check for duplicate email (use existsByEmail from repository)
+        // Check for duplicate email
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new IllegalArgumentException("Email already exists");
         }
-        // Set timestamps
+        
+        // Make sure timestamps are set
         user.onCreate();
-        // Save and return
+        
+        // Save user
         return userRepository.save(user);
     }
     
@@ -52,15 +54,13 @@ public class UserServiceImpl implements UserService {
     
     @Override
     public User getUserByEmail(String email) {
-        // This method throws an exception if user not found (for other use cases)
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
     }
     
     @Override
     public User findByEmail(String email) {
-        // *** CRITICAL FIX: Return null if user doesn't exist, don't throw! ***
-        // This is what AuthController.register() expects for duplicate check.
+        // Return null if not found (for registration duplicate check)
         return userRepository.findByEmail(email).orElse(null);
     }
 }
