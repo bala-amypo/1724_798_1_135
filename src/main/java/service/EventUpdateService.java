@@ -5,9 +5,9 @@ import java.util.List;
 
 public interface EventUpdateService {
 
-    EventUpdate publish(EventUpdate update);
+    EventUpdate publishUpdate(EventUpdate update);
 
-    List<EventUpdate> getByEvent(Long eventId);
+    List<EventUpdate> getUpdatesForEvent(Long eventId);
 
-    EventUpdate getById(Long id);
+    EventUpdate getUpdateById(Long id);
 }
