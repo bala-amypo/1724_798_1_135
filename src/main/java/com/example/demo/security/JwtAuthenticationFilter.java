@@ -1,4 +1,4 @@
-// File: src/main/java/com/example/demo/security/JwtAuthenticationFilter.java
+// File: src/main/java/com/example/demo/security/JwtAuthenticationFilter.java (if exists)
 package com.example.demo.security;
 
 import jakarta.servlet.FilterChain;
@@ -31,12 +31,13 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                     FilterChain filterChain)
             throws ServletException, IOException {
         
-        final String authHeader = request.getHeader("Authorization");
+        final String authorizationHeader = request.getHeader("Authorization");
+        
         String username = null;
         String jwt = null;
         
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            jwt = authHeader.substring(7);
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            jwt = authorizationHeader.substring(7);
             username = jwtUtil.extractUsername(jwt);
         }
         
@@ -44,11 +45,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
             
             if (jwtUtil.validateToken(jwt, userDetails.getUsername())) {
-                UsernamePasswordAuthenticationToken authToken = 
-                    new UsernamePasswordAuthenticationToken(
-                        userDetails, null, userDetails.getAuthorities());
-                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authToken);
+                UsernamePasswordAuthenticationToken authenticationToken = 
+                    new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
             }
         }
         
