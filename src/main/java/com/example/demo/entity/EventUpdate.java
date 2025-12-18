@@ -18,7 +18,6 @@ public class EventUpdate {
     @Column(columnDefinition = "TEXT")
     private String updateContent;
     
-    // Use enum type
     @Enumerated(EnumType.STRING)
     @Column(name = "severity_level")
     private SeverityLevel severityLevel;
@@ -58,16 +57,24 @@ public class EventUpdate {
         this.updateContent = updateContent;
     }
     
-    // Keep for backward compatibility
+    // For original requirements - getUpdateType as string
     public String getUpdateType() {
         return severityLevel != null ? severityLevel.name() : null;
     }
     
     public void setUpdateType(String updateType) {
-        this.severityLevel = SeverityLevel.valueOf(updateType);
+        if (updateType != null) {
+            try {
+                this.severityLevel = SeverityLevel.valueOf(updateType.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                this.severityLevel = null;
+            }
+        } else {
+            this.severityLevel = null;
+        }
     }
     
-    // Test expects getSeverityLevel()
+    // For test - getSeverityLevel as enum
     public SeverityLevel getSeverityLevel() {
         return severityLevel;
     }
