@@ -27,8 +27,9 @@ public class Event {
     @JoinColumn(name = "publisher_id", nullable = false)
     private User publisher;
     
+    // CHANGE THIS: Rename field to match repository query
     @Column(name = "is_active")
-    private boolean active = true;
+    private boolean isActive = true;
     
     @Column(name = "created_at", nullable = false, updatable = false)
     private Timestamp createdAt;
@@ -39,8 +40,23 @@ public class Event {
     public Event() {
     }
     
-    // Remove the @PrePersist annotations - they're causing issues
-    // The test is calling onCreate() directly
+    // Make sure getter/setter names match the field
+    public boolean getIsActive() {
+        return isActive;
+    }
+    
+    public void setIsActive(boolean isActive) {
+        this.isActive = isActive;
+    }
+    
+    // For test compatibility - keep both
+    public boolean isActive() {
+        return isActive;
+    }
+    
+    public void setActive(boolean active) {
+        this.isActive = active;
+    }
     
     public void onCreate() {
         this.createdAt = Timestamp.valueOf(LocalDateTime.now());
@@ -100,24 +116,6 @@ public class Event {
     
     public void setPublisher(User publisher) {
         this.publisher = publisher;
-    }
-    
-    // Test expects isActive() method
-    public boolean isActive() {
-        return active;
-    }
-    
-    // Test expects setActive(boolean)
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-    
-    public Boolean getIsActive() {
-        return active;
-    }
-    
-    public void setIsActive(Boolean isActive) {
-        this.active = isActive;
     }
     
     public Timestamp getCreatedAt() {
