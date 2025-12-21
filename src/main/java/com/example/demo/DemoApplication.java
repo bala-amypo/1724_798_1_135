@@ -14,8 +14,5 @@ public class DemoApplication {
         SpringApplication.run(DemoApplication.class, args);
     }
     
-    @Bean
-    public ServletRegistrationBean<SimpleStatusServlet> simpleStatusServlet() {
-        return new ServletRegistrationBean<>(new SimpleStatusServlet(), "/simple-status");
-    }
+   
 }
