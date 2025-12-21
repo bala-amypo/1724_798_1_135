@@ -49,12 +49,4 @@ public class Event {
     
     public Timestamp getCreatedAt() { return createdAt; }
     public void setCreatedAt(Timestamp createdAt) { this.createdAt = createdAt; }
-    
-    @PrePersist
-    protected void onCreate() {
-        createdAt = new Timestamp(System.currentTimeMillis());
-        if (isActive == null) {
-            isActive = true;
-        }
-    }
 }

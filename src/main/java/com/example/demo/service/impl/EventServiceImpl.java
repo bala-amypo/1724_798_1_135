@@ -24,8 +24,8 @@ public class EventServiceImpl implements EventService {
     
     @Override
     public Event updateEvent(Long id, Event event) {
-        Event existingEvent = getEventById(id);
-        
+        // Simple update - if exists
+        Event existingEvent = eventRepository.findById(id).orElse(event);
         if (event.getTitle() != null) existingEvent.setTitle(event.getTitle());
         if (event.getDescription() != null) existingEvent.setDescription(event.getDescription());
         if (event.getLocation() != null) existingEvent.setLocation(event.getLocation());
@@ -37,8 +37,7 @@ public class EventServiceImpl implements EventService {
     
     @Override
     public Event getEventById(Long id) {
-        return eventRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Event not found"));
+        return eventRepository.findById(id).orElse(null);
     }
     
     @Override
@@ -48,8 +47,10 @@ public class EventServiceImpl implements EventService {
     
     @Override
     public void deactivateEvent(Long id) {
-        Event event = getEventById(id);
-        event.setIsActive(false);
-        eventRepository.save(event);
+        Event event = eventRepository.findById(id).orElse(null);
+        if (event != null) {
+            event.setIsActive(false);
+            eventRepository.save(event);
+        }
     }
 }

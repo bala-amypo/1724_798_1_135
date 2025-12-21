@@ -11,17 +11,14 @@ public class User {
     private Long id;
     
     private String fullName;
-    
-    @Column(unique = true)
     private String email;
-    
     private String password;
-    
-    private String role; // ADMIN, PUBLISHER, SUBSCRIBER
+    private String role;
     
     @Column(name = "created_at")
     private Timestamp createdAt;
     
+    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     
@@ -39,9 +36,4 @@ public class User {
     
     public Timestamp getCreatedAt() { return createdAt; }
     public void setCreatedAt(Timestamp createdAt) { this.createdAt = createdAt; }
-    
-    @PrePersist
-    protected void onCreate() {
-        createdAt = new Timestamp(System.currentTimeMillis());
-    }
 }

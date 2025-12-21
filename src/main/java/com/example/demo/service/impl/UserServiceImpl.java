@@ -19,17 +19,17 @@ public class UserServiceImpl implements UserService {
     
     @Override
     public User registerUser(User user) {
+        // Only check for duplicate email (as required)
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new IllegalArgumentException("Email already exists");
         }
-        // No password encoding - just save as is
         return userRepository.save(user);
     }
     
     @Override
     public User getUserById(Long id) {
-        return userRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        // Simple find - if not found, return null (no exception)
+        return userRepository.findById(id).orElse(null);
     }
     
     @Override
