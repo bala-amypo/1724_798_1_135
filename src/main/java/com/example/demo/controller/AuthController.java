@@ -25,9 +25,9 @@ public class AuthController {
         return userService.registerUser(user);
     }
     
-    @PostMapping("/login")
-    public String login(@RequestBody LoginRequest request) {
-        // Simple authentication - just return success message
-        return "Login successful for: " + request.getEmail();
-    }
+    // @PostMapping("/login")
+    // public String login(@RequestBody LoginRequest request) {
+    //     // Simple authentication - just return success message
+    //     return "Login successful for: " + request.getEmail();
+    // }
 }
