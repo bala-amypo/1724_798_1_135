@@ -25,12 +25,10 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     
     @Override
     public Subscription subscribe(Long userId, Long eventId) {
-        // Only check for duplicate subscription
         if (subscriptionRepository.existsByUserIdAndEventId(userId, eventId)) {
             throw new IllegalArgumentException("Already subscribed");
         }
         
-        // Get user and event - assume they exist
         User user = userRepository.findById(userId).orElse(null);
         Event event = eventRepository.findById(eventId).orElse(null);
         
