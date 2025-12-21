@@ -19,15 +19,15 @@ public class AuthController {
         User user = new User();
         user.setFullName(request.getFullName());
         user.setEmail(request.getEmail());
-        user.setPassword(request.getPassword()); // Stored as plain text
+        user.setPassword(request.getPassword());
         user.setRole(request.getRole());
         
         return userService.registerUser(user);
     }
     
-    // @PostMapping("/login")
-    // public String login(@RequestBody LoginRequest request) {
-    //     // Simple authentication - just return success message
-    //     return "Login successful for: " + request.getEmail();
-    // }
+    @PostMapping("/login")
+    public String login(@RequestBody LoginRequest request) {
+        // Simple check - just return success
+        return "Login successful for email: " + request.getEmail();
+    }
 }

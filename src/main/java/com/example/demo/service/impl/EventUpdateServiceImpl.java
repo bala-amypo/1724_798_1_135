@@ -1,9 +1,7 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.entity.Event;
-import com.example.demo.entity.EventUpdate;
-import com.example.demo.repository.EventRepository;
-import com.example.demo.repository.EventUpdateRepository;
+import com.example.demo.entity.*;
+import com.example.demo.repository.*;
 import com.example.demo.service.BroadcastService;
 import com.example.demo.service.EventUpdateService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +26,8 @@ public class EventUpdateServiceImpl implements EventUpdateService {
     
     @Override
     public EventUpdate publishUpdate(EventUpdate update) {
-        // Save the update first
         EventUpdate savedUpdate = eventUpdateRepository.save(update);
-        
-        // Trigger broadcast (in real app, this might be async)
         broadcastService.triggerBroadcast(savedUpdate.getId());
-        
         return savedUpdate;
     }
     
@@ -44,7 +38,6 @@ public class EventUpdateServiceImpl implements EventUpdateService {
     
     @Override
     public EventUpdate getUpdateById(Long id) {
-        return eventUpdateRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("EventUpdate not found"));
+        return eventUpdateRepository.findById(id).orElse(null);
     }
 }
