@@ -8,7 +8,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/broadcasts")
-public class BroadcastLogController {
+public class BroadcastController {
     
     @Autowired
     private BroadcastService broadcastService;
