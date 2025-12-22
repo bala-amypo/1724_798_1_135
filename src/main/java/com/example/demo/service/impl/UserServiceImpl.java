@@ -19,7 +19,6 @@ public class UserServiceImpl implements UserService {
     
     @Override
     public User registerUser(User user) {
-        // Only check for duplicate email (as required)
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new IllegalArgumentException("Email already exists");
         }
@@ -28,7 +27,6 @@ public class UserServiceImpl implements UserService {
     
     @Override
     public User getUserById(Long id) {
-        // Simple find - if not found, return null (no exception)
         return userRepository.findById(id).orElse(null);
     }
     

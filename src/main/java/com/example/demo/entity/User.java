@@ -18,7 +18,6 @@ public class User {
     @Column(name = "created_at")
     private Timestamp createdAt;
     
-    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     

@@ -30,7 +30,6 @@ public class SubscriptionServiceImpl implements SubscriptionService {
             throw new IllegalArgumentException("Already subscribed");
         }
         
-        // Get user and event - assume they exist
         User user = userRepository.findById(userId).orElse(null);
         Event event = eventRepository.findById(eventId).orElse(null);
         

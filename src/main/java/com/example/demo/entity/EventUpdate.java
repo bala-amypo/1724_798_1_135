@@ -23,7 +23,6 @@ public class EventUpdate {
     @Column(name = "posted_at")
     private Timestamp postedAt;
     
-    // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     

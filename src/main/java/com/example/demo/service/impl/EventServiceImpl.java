@@ -24,7 +24,6 @@ public class EventServiceImpl implements EventService {
     
     @Override
     public Event updateEvent(Long id, Event event) {
-        // Simple update - if exists
         Event existingEvent = eventRepository.findById(id).orElse(event);
         if (event.getTitle() != null) existingEvent.setTitle(event.getTitle());
         if (event.getDescription() != null) existingEvent.setDescription(event.getDescription());
