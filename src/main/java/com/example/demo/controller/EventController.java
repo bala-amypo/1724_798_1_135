@@ -18,10 +18,10 @@ public class EventController {
         return eventService.createEvent(event);
     }
     
-    @PutMapping("/{id}")
-    public Event updateEvent(@PathVariable Long id, @RequestBody Event event) {
-        return eventService.updateEvent(id, event);
-    }
+    // @PutMapping("/{id}")
+    // public Event updateEvent(@PathVariable Long id, @RequestBody Event event) {
+    //     return eventService.updateEvent(id, event);
+    // }
     
     @GetMapping("/{id}")
     public Event getEvent(@PathVariable Long id) {
