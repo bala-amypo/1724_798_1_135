@@ -32,7 +32,8 @@ public class BroadcastServiceImpl implements BroadcastService {
         Event event = update.getEvent();
         if (event == null) return;
         
-        List<Subscription> subscriptions = subscriptionRepository.findAll();
+        List<Subscription> subscriptions = subscriptionRepository.findByEventId(event.getId());
+        //List<Subscription> subscriptions = subscriptionRepository.findAll();
         
         for (Subscription subscription : subscriptions) {
             if (subscription.getEvent().getId().equals(event.getId())) {
