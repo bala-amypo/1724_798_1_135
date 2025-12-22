@@ -1,4 +1,6 @@
 
+
+
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
@@ -11,81 +13,37 @@ public class EventUpdate {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(name = "event_id")
-    private Long eventId; // Just store ID
+    @ManyToOne
+    @JoinColumn(name = "event_id")
+    private Event event;
     
-    @Column(name = "message")
-    private String message; // Rename from updateContent to message
+    @Column(name = "update_content")
+    private String updateContent;
     
-    private String type; // Rename from updateType to type
+    @Column(name = "update_type")
+    private String updateType; // INFO, WARNING, CRITICAL
     
-    @Column(name = "created_at")
-    private Timestamp createdAt;
+    @Column(name = "posted_at")
+    private Timestamp postedAt;
     
     // Getters and Setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     
-    public Long getEventId() { return eventId; }
-    public void setEventId(Long eventId) { this.eventId = eventId; }
+    public Event getEvent() { return event; }
+    public void setEvent(Event event) { this.event = event; }
     
-    public String getMessage() { return message; }
-    public void setMessage(String message) { this.message = message; }
+    public String getUpdateContent() { return updateContent; }
+    public void setUpdateContent(String updateContent) { this.updateContent = updateContent; }
     
-    public String getType() { return type; }
-    public void setType(String type) { this.type = type; }
+    public String getUpdateType() { return updateType; }
+    public void setUpdateType(String updateType) { this.updateType = updateType; }
     
-    public Timestamp getCreatedAt() { return createdAt; }
-    public void setCreatedAt(Timestamp createdAt) { this.createdAt = createdAt; }
+    public Timestamp getPostedAt() { return postedAt; }
+    public void setPostedAt(Timestamp postedAt) { this.postedAt = postedAt; }
+    
+    @PrePersist
+    protected void onCreate() {
+        postedAt = new Timestamp(System.currentTimeMillis());
+    }
 }
-
-
-
-
-
-// package com.example.demo.entity;
-
-// import jakarta.persistence.*;
-// import java.sql.Timestamp;
-
-// @Entity
-// @Table(name = "event_updates")
-// public class EventUpdate {
-//     @Id
-//     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//     private Long id;
-    
-//     @ManyToOne
-//     @JoinColumn(name = "event_id")
-//     private Event event;
-    
-//     @Column(name = "update_content")
-//     private String updateContent;
-    
-//     @Column(name = "update_type")
-//     private String updateType; // INFO, WARNING, CRITICAL
-    
-//     @Column(name = "posted_at")
-//     private Timestamp postedAt;
-    
-//     // Getters and Setters
-//     public Long getId() { return id; }
-//     public void setId(Long id) { this.id = id; }
-    
-//     public Event getEvent() { return event; }
-//     public void setEvent(Event event) { this.event = event; }
-    
-//     public String getUpdateContent() { return updateContent; }
-//     public void setUpdateContent(String updateContent) { this.updateContent = updateContent; }
-    
-//     public String getUpdateType() { return updateType; }
-//     public void setUpdateType(String updateType) { this.updateType = updateType; }
-    
-//     public Timestamp getPostedAt() { return postedAt; }
-//     public void setPostedAt(Timestamp postedAt) { this.postedAt = postedAt; }
-    
-//     @PrePersist
-//     protected void onCreate() {
-//         postedAt = new Timestamp(System.currentTimeMillis());
-//     }
-// }
