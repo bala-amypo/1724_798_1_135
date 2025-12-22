@@ -13,10 +13,10 @@ public class UserController {
     @Autowired
     private UserService userService;
     
-    @PostMapping
-    public User createUser(@RequestBody User user) {
-        return userService.registerUser(user);
-    }
+    // @PostMapping
+    // public User createUser(@RequestBody User user) {
+    //     return userService.registerUser(user);
+    // }
     
     @GetMapping("/{id}")
     public User getUser(@PathVariable Long id) {
