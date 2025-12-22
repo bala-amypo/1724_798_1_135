@@ -1,4 +1,3 @@
-
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
@@ -11,9 +10,10 @@ public class EventUpdate {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    // Just use event ID instead of full Event object
-    @Column(name = "event_id")
-    private Long eventId;
+    // Simple ManyToOne - just reference
+    @ManyToOne
+    @JoinColumn(name = "event_id")
+    private Event event;
     
     @Column(name = "update_content")
     private String updateContent;
@@ -28,8 +28,8 @@ public class EventUpdate {
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     
-    public Long getEventId() { return eventId; }
-    public void setEventId(Long eventId) { this.eventId = eventId; }
+    public Event getEvent() { return event; }
+    public void setEvent(Event event) { this.event = event; }
     
     public String getUpdateContent() { return updateContent; }
     public void setUpdateContent(String updateContent) { this.updateContent = updateContent; }

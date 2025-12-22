@@ -1,5 +1,7 @@
+
 package com.example.demo.controller;
 
+import com.example.demo.entity.Event;
 import com.example.demo.entity.EventUpdate;
 import com.example.demo.service.EventUpdateService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,16 +22,18 @@ public class EventUpdateController {
         update.setUpdateContent((String) request.get("updateContent"));
         update.setUpdateType((String) request.get("updateType"));
         
-        // Handle eventId (could be string or integer)
+        // Create a simple Event object with just the ID
         Object eventId = request.get("eventId");
         if (eventId != null) {
+            Event event = new Event();
             if (eventId instanceof Integer) {
-                update.setEventId(((Integer) eventId).longValue());
+                event.setId(((Integer) eventId).longValue());
             } else if (eventId instanceof String) {
-                update.setEventId(Long.parseLong((String) eventId));
+                event.setId(Long.parseLong((String) eventId));
             } else if (eventId instanceof Long) {
-                update.setEventId((Long) eventId);
+                event.setId((Long) eventId);
             }
+            update.setEvent(event);
         }
         
         return eventUpdateService.publishUpdate(update);

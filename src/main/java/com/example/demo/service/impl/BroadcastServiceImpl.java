@@ -14,7 +14,6 @@ public class BroadcastServiceImpl implements BroadcastService {
     private final BroadcastLogRepository broadcastLogRepository;
     private final SubscriptionRepository subscriptionRepository;
     private final EventUpdateRepository eventUpdateRepository;
-    private final EventRepository eventRepository;
     
     @Autowired
     public BroadcastServiceImpl(BroadcastLogRepository broadcastLogRepository,
@@ -23,7 +22,6 @@ public class BroadcastServiceImpl implements BroadcastService {
         this.broadcastLogRepository = broadcastLogRepository;
         this.subscriptionRepository = subscriptionRepository;
         this.eventUpdateRepository = eventUpdateRepository;
-        this.eventRepository = null; // Not used in simple version
     }
     
     @Override
@@ -31,8 +29,10 @@ public class BroadcastServiceImpl implements BroadcastService {
         EventUpdate update = eventUpdateRepository.findById(updateId).orElse(null);
         if (update == null) return;
         
-        // Get event ID from EventUpdate (we store it as Long now)
-        Long eventId = update.getEventId();
+        Event event = update.getEvent();
+        if (event == null) return;
+        
+        Long eventId = event.getId();
         if (eventId == null) return;
         
         // Get all subscriptions

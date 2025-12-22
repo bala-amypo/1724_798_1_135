@@ -10,12 +10,13 @@ public class Subscription {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    // Use IDs instead of full objects
-    @Column(name = "user_id")
-    private Long userId;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
     
-    @Column(name = "event_id")
-    private Long eventId;
+    @ManyToOne
+    @JoinColumn(name = "event_id")
+    private Event event;
     
     @Column(name = "subscribed_at")
     private Date subscribedAt;
@@ -24,25 +25,14 @@ public class Subscription {
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     
-    public Long getUserId() { return userId; }
-    public void setUserId(Long userId) { this.userId = userId; }
+    public User getUser() { return user; }
+    public void setUser(User user) { this.user = user; }
     
-    public Long getEventId() { return eventId; }
-    public void setEventId(Long eventId) { this.eventId = eventId; }
+    public Event getEvent() { return event; }
+    public void setEvent(Event event) { this.event = event; }
     
     public Date getSubscribedAt() { return subscribedAt; }
     public void setSubscribedAt(Date subscribedAt) { this.subscribedAt = subscribedAt; }
-    
-    // Helper methods to maintain compatibility with existing code
-    public User getUser() {
-        // Return a dummy user or null
-        return null;
-    }
-    
-    public Event getEvent() {
-        // Return a dummy event or null
-        return null;
-    }
     
     @PrePersist
     protected void onCreate() {
