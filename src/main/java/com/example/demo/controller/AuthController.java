@@ -27,6 +27,7 @@ public class AuthController {
     
     @PostMapping("/login")
     public String login(@RequestBody LoginRequest request) {
+        // Simple check - just return success
         return "Login successful for email: " + request.getEmail();
     }
 }
