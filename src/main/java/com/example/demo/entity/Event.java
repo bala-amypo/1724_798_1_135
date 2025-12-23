@@ -22,6 +22,8 @@ public class Event {
     @Column(name = "is_active")
     private Boolean isActive = true;
     
+    @Column(name = "created_at")
+    private Timestamp createdAt;
     
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
