@@ -19,7 +19,7 @@ public class BroadcastLog {
     private User subscriber;
     
     @Column(name = "delivery_status")
-    private String deliveryStatus; // PENDING, SENT, FAILED
+    private String deliveryStatus; 
     
     @Column(name = "sent_at")
     private Timestamp sentAt;
