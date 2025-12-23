@@ -2,6 +2,8 @@ package com.example.demo.dto;
 
 public class RegisterRequest {
     private String fullName;
+    
+    @Email(message = "Invalid email format")
     private String email;
     private String password;
     private String role;
@@ -9,6 +11,7 @@ public class RegisterRequest {
     public String getFullName() { return fullName; }
     public void setFullName(String fullName) { this.fullName = fullName; }
     
+
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
     
