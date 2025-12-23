@@ -5,6 +5,7 @@ public class RegisterRequest {
     
     @Email(message = "Invalid email format")
     private String email;
+    
     private String password;
     private String role;
     
