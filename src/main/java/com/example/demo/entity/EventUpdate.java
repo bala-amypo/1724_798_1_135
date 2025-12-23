@@ -18,7 +18,7 @@ public class EventUpdate {
     private String updateContent;
     
     @Column(name = "update_type")
-    private String updateType; // INFO, WARNING, CRITICAL
+    private String updateType; 
     
     @Column(name = "posted_at")
     private Timestamp postedAt;
