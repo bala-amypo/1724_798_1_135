@@ -3,7 +3,7 @@ package com.example.demo.dto;
 public class RegisterRequest {
     private String fullName;
     
-    @Email(message = "Invalid email format")
+    //@Email(message = "Invalid email format")
     private String email;
     
     private String password;
