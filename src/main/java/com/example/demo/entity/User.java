@@ -1,7 +1,6 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import java.sql.Timestamp;
 import java.time.Instant;
 
 @Entity
@@ -25,7 +24,7 @@ public class User {
     private String role; // ADMIN, PUBLISHER, SUBSCRIBER
     
     @Column(nullable = false)
-    private Timestamp createdAt;
+    private Instant createdAt;
     
     public User() {
     }
@@ -35,7 +34,7 @@ public class User {
         if (role == null || role.isEmpty()) {
             role = "SUBSCRIBER";
         }
-        createdAt = Timestamp.from(Instant.now());
+        createdAt = Instant.now();
     }
     
     @PrePersist
@@ -89,11 +88,11 @@ public class User {
         this.role = role.name();
     }
     
-    public Timestamp getCreatedAt() {
+    public Instant getCreatedAt() {
         return createdAt;
     }
     
-    public void setCreatedAt(Timestamp createdAt) {
+    public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
     }
 }

@@ -1,7 +1,6 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import java.sql.Timestamp;
 import java.time.Instant;
 
 @Entity
@@ -21,14 +20,14 @@ public class Subscription {
     private Event event;
     
     @Column(nullable = false)
-    private Timestamp subscribedAt;
+    private Instant subscribedAt;
     
     public Subscription() {
     }
     
     // Public method for tests
     public void onCreate() {
-        subscribedAt = Timestamp.from(Instant.now());
+        subscribedAt = Instant.now();
     }
     
     @PrePersist
@@ -61,11 +60,11 @@ public class Subscription {
         this.event = event;
     }
     
-    public Timestamp getSubscribedAt() {
+    public Instant getSubscribedAt() {
         return subscribedAt;
     }
     
-    public void setSubscribedAt(Timestamp subscribedAt) {
+    public void setSubscribedAt(Instant subscribedAt) {
         this.subscribedAt = subscribedAt;
     }
 }

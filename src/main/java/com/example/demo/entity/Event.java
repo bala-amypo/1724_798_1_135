@@ -1,9 +1,7 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import java.sql.Timestamp;
 import java.time.Instant;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "events")
@@ -30,25 +28,25 @@ public class Event {
     private Boolean isActive = true;
     
     @Column(nullable = false)
-    private Timestamp createdAt;
+    private Instant createdAt;
     
     @Column(nullable = false)
-    private Timestamp lastUpdatedAt;
+    private Instant lastUpdatedAt;
     
     public Event() {
     }
     
     // Public methods for tests
     public void onCreate() {
-        createdAt = Timestamp.from(Instant.now());
-        lastUpdatedAt = Timestamp.from(Instant.now());
+        createdAt = Instant.now();
+        lastUpdatedAt = Instant.now();
         if (isActive == null) {
             isActive = true;
         }
     }
     
     public void onUpdate() {
-        lastUpdatedAt = Timestamp.from(Instant.now());
+        lastUpdatedAt = Instant.now();
     }
     
     @PrePersist
@@ -59,11 +57,6 @@ public class Event {
     @PreUpdate
     protected void preUpdate() {
         onUpdate();
-    }
-    
-    // Method for test compatibility - get LastUpdatedAt as Instant
-    public Instant getLastUpdatedAtAsInstant() {
-        return lastUpdatedAt.toInstant();
     }
     
     // Getters and Setters
@@ -131,19 +124,19 @@ public class Event {
         this.isActive = active;
     }
     
-    public Timestamp getCreatedAt() {
+    public Instant getCreatedAt() {
         return createdAt;
     }
     
-    public void setCreatedAt(Timestamp createdAt) {
+    public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
     }
     
-    public Timestamp getLastUpdatedAt() {
+    public Instant getLastUpdatedAt() {
         return lastUpdatedAt;
     }
     
-    public void setLastUpdatedAt(Timestamp lastUpdatedAt) {
+    public void setLastUpdatedAt(Instant lastUpdatedAt) {
         this.lastUpdatedAt = lastUpdatedAt;
     }
 }

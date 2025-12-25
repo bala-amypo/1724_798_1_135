@@ -1,7 +1,6 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import java.sql.Timestamp;
 import java.time.Instant;
 
 @Entity
@@ -24,14 +23,14 @@ public class BroadcastLog {
     private String deliveryStatus = "SENT"; // PENDING, SENT, FAILED
     
     @Column(nullable = false)
-    private Timestamp sentAt;
+    private Instant sentAt;
     
     public BroadcastLog() {
     }
     
     @PrePersist
     protected void onCreate() {
-        sentAt = Timestamp.from(Instant.now());
+        sentAt = Instant.now();
         if (deliveryStatus == null) {
             deliveryStatus = "SENT";
         }
@@ -49,16 +48,6 @@ public class BroadcastLog {
     // For test compatibility
     public void setDeliveryStatus(DeliveryStatus status) {
         this.deliveryStatus = status.name();
-    }
-    
-    // Regular getter for string
-    public String getDeliveryStatusString() {
-        return deliveryStatus;
-    }
-    
-    // Regular setter for string
-    public void setDeliveryStatus(String deliveryStatus) {
-        this.deliveryStatus = deliveryStatus;
     }
     
     // Getters and Setters
@@ -86,11 +75,19 @@ public class BroadcastLog {
         this.subscriber = subscriber;
     }
     
-    public Timestamp getSentAt() {
+    public String getDeliveryStatusString() {
+        return deliveryStatus;
+    }
+    
+    public void setDeliveryStatus(String deliveryStatus) {
+        this.deliveryStatus = deliveryStatus;
+    }
+    
+    public Instant getSentAt() {
         return sentAt;
     }
     
-    public void setSentAt(Timestamp sentAt) {
+    public void setSentAt(Instant sentAt) {
         this.sentAt = sentAt;
     }
 }

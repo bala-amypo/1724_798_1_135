@@ -23,7 +23,7 @@ public class EventUpdate {
     private String updateType; // INFO, WARNING, CRITICAL
     
     @Column(name = "posted_at", nullable = false)
-    private Timestamp timestamp; // Rename postedAt to timestamp for test compatibility
+    private Timestamp timestamp;
     
     public EventUpdate() {
     }
@@ -39,15 +39,6 @@ public class EventUpdate {
     @PrePersist
     protected void prePersist() {
         onCreate();
-    }
-    
-    // For test compatibility - keep getPostedAt for existing code
-    public Timestamp getPostedAt() {
-        return timestamp;
-    }
-    
-    public void setPostedAt(Timestamp postedAt) {
-        this.timestamp = postedAt;
     }
     
     // For test compatibility
