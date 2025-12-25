@@ -16,16 +16,7 @@ public class EventUpdateServiceImpl implements EventUpdateService {
     private final EventRepository eventRepository;
     private final BroadcastService broadcastService;
     
-    // Two constructors: one for test (2 args), one for Spring (3 args)
-    // This is the key fix - we need both constructors
-    public EventUpdateServiceImpl(EventUpdateRepository eventUpdateRepository, 
-                                  EventRepository eventRepository) {
-        this.eventUpdateRepository = eventUpdateRepository;
-        this.eventRepository = eventRepository;
-        this.broadcastService = null;
-    }
-    
-    // This constructor will be used by Spring
+    // Only one constructor
     public EventUpdateServiceImpl(EventUpdateRepository eventUpdateRepository, 
                                   EventRepository eventRepository,
                                   BroadcastService broadcastService) {
@@ -40,11 +31,7 @@ public class EventUpdateServiceImpl implements EventUpdateService {
                 .orElseThrow(() -> new IllegalArgumentException("Event not found"));
         update.setEvent(event);
         EventUpdate savedUpdate = eventUpdateRepository.save(update);
-        
-        // Only broadcast if broadcastService is available (in production)
-        if (broadcastService != null) {
-            broadcastService.triggerBroadcast(savedUpdate.getId());
-        }
+        broadcastService.triggerBroadcast(savedUpdate.getId());
         return savedUpdate;
     }
     

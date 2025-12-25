@@ -17,24 +17,10 @@ public class BroadcastServiceImpl implements BroadcastService {
     private final SubscriptionRepository subscriptionRepository;
     private final EventUpdateRepository eventUpdateRepository;
     
-    // Test expects: (EventUpdateRepository, SubscriptionRepository, BroadcastLogRepository)
-    // But our implementation should have: (BroadcastLogRepository, SubscriptionRepository, EventUpdateRepository)
-    // Let's create both constructors
-    
-    // Constructor for test
-    public BroadcastServiceImpl(EventUpdateRepository eventUpdateRepository,
-                                SubscriptionRepository subscriptionRepository,
-                                BroadcastLogRepository broadcastLogRepository) {
-        this.eventUpdateRepository = eventUpdateRepository;
-        this.subscriptionRepository = subscriptionRepository;
-        this.broadcastLogRepository = broadcastLogRepository;
-    }
-    
-    // Constructor for Spring
+    // Only one constructor to avoid confusion
     public BroadcastServiceImpl(BroadcastLogRepository broadcastLogRepository,
                                 SubscriptionRepository subscriptionRepository,
-                                EventUpdateRepository eventUpdateRepository,
-                                boolean dummy) {
+                                EventUpdateRepository eventUpdateRepository) {
         this.broadcastLogRepository = broadcastLogRepository;
         this.subscriptionRepository = subscriptionRepository;
         this.eventUpdateRepository = eventUpdateRepository;
