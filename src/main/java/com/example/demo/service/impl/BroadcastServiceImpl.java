@@ -17,9 +17,20 @@ public class BroadcastServiceImpl implements BroadcastService {
     private final SubscriptionRepository subscriptionRepository;
     private final EventUpdateRepository eventUpdateRepository;
     
+    // Constructor matching test order
+    public BroadcastServiceImpl(EventUpdateRepository eventUpdateRepository,
+                                SubscriptionRepository subscriptionRepository,
+                                BroadcastLogRepository broadcastLogRepository) {
+        this.eventUpdateRepository = eventUpdateRepository;
+        this.subscriptionRepository = subscriptionRepository;
+        this.broadcastLogRepository = broadcastLogRepository;
+    }
+    
+    // Alternative constructor for production if needed
     public BroadcastServiceImpl(BroadcastLogRepository broadcastLogRepository,
                                 SubscriptionRepository subscriptionRepository,
-                                EventUpdateRepository eventUpdateRepository) {
+                                EventUpdateRepository eventUpdateRepository,
+                                boolean correctOrder) {
         this.broadcastLogRepository = broadcastLogRepository;
         this.subscriptionRepository = subscriptionRepository;
         this.eventUpdateRepository = eventUpdateRepository;
@@ -51,7 +62,6 @@ public class BroadcastServiceImpl implements BroadcastService {
         EventUpdate update = eventUpdateRepository.findById(updateId)
                 .orElseThrow(() -> new IllegalArgumentException("Event update not found"));
         
-        // Find the log for this update and user
         List<BroadcastLog> logs = broadcastLogRepository.findByEventUpdateId(updateId);
         for (BroadcastLog log : logs) {
             if (log.getSubscriber().getId().equals(userId)) {

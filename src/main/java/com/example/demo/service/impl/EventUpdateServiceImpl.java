@@ -14,8 +14,9 @@ public class EventUpdateServiceImpl implements EventUpdateService {
     
     private final EventUpdateRepository eventUpdateRepository;
     private final EventRepository eventRepository;
-    private final BroadcastService broadcastService;
+    private BroadcastService broadcastService;
     
+    // Constructor for test (2 arguments)
     public EventUpdateServiceImpl(EventUpdateRepository eventUpdateRepository, 
                                   EventRepository eventRepository) {
         this.eventUpdateRepository = eventUpdateRepository;
@@ -23,11 +24,16 @@ public class EventUpdateServiceImpl implements EventUpdateService {
         this.broadcastService = null;
     }
     
+    // Constructor for production (3 arguments)
     public EventUpdateServiceImpl(EventUpdateRepository eventUpdateRepository, 
                                   EventRepository eventRepository,
                                   BroadcastService broadcastService) {
         this.eventUpdateRepository = eventUpdateRepository;
         this.eventRepository = eventRepository;
+        this.broadcastService = broadcastService;
+    }
+    
+    public void setBroadcastService(BroadcastService broadcastService) {
         this.broadcastService = broadcastService;
     }
     
@@ -38,7 +44,6 @@ public class EventUpdateServiceImpl implements EventUpdateService {
         update.setEvent(event);
         EventUpdate savedUpdate = eventUpdateRepository.save(update);
         
-        // Call broadcast if available
         if (broadcastService != null) {
             broadcastService.triggerBroadcast(savedUpdate.getId());
         }
@@ -47,7 +52,12 @@ public class EventUpdateServiceImpl implements EventUpdateService {
     
     @Override
     public List<EventUpdate> getUpdatesForEvent(Long eventId) {
-        return eventUpdateRepository.findByEventIdOrderByPostedAtAsc(eventId);
+        // Try both methods for compatibility
+        try {
+            return eventUpdateRepository.findByEventIdOrderByTimestampAsc(eventId);
+        } catch (Exception e) {
+            return eventUpdateRepository.findByEventIdOrderByPostedAtAsc(eventId);
+        }
     }
     
     @Override
