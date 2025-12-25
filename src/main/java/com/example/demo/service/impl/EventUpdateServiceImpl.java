@@ -16,20 +16,15 @@ public class EventUpdateServiceImpl implements EventUpdateService {
     private final EventRepository eventRepository;
     private BroadcastService broadcastService;
     
-    // Constructor for test (2 arguments)
+    // Constructor for test AND Spring
     public EventUpdateServiceImpl(EventUpdateRepository eventUpdateRepository, 
                                   EventRepository eventRepository) {
         this.eventUpdateRepository = eventUpdateRepository;
         this.eventRepository = eventRepository;
-        this.broadcastService = null;
     }
     
-    // Constructor for production (3 arguments)
-    public EventUpdateServiceImpl(EventUpdateRepository eventUpdateRepository, 
-                                  EventRepository eventRepository,
-                                  BroadcastService broadcastService) {
-        this.eventUpdateRepository = eventUpdateRepository;
-        this.eventRepository = eventRepository;
+    // Setter method for BroadcastService (Spring will call this)
+    public void setBroadcastService(BroadcastService broadcastService) {
         this.broadcastService = broadcastService;
     }
     
@@ -40,7 +35,6 @@ public class EventUpdateServiceImpl implements EventUpdateService {
         update.setEvent(event);
         EventUpdate savedUpdate = eventUpdateRepository.save(update);
         
-        // Only broadcast if broadcastService is available
         if (broadcastService != null) {
             broadcastService.triggerBroadcast(savedUpdate.getId());
         }
