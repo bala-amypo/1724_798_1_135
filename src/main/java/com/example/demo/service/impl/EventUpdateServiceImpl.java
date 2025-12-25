@@ -6,6 +6,7 @@ import com.example.demo.repository.EventRepository;
 import com.example.demo.repository.EventUpdateRepository;
 import com.example.demo.service.BroadcastService;
 import com.example.demo.service.EventUpdateService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -17,13 +18,15 @@ public class EventUpdateServiceImpl implements EventUpdateService {
     private BroadcastService broadcastService;
     
     // Constructor for test AND Spring
+    @Autowired
     public EventUpdateServiceImpl(EventUpdateRepository eventUpdateRepository, 
                                   EventRepository eventRepository) {
         this.eventUpdateRepository = eventUpdateRepository;
         this.eventRepository = eventRepository;
     }
     
-    // Setter method for BroadcastService (Spring will call this)
+    // Add @Autowired to the setter
+    @Autowired
     public void setBroadcastService(BroadcastService broadcastService) {
         this.broadcastService = broadcastService;
     }
