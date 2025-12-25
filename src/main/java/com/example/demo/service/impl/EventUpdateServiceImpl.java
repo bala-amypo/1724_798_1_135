@@ -16,7 +16,7 @@ public class EventUpdateServiceImpl implements EventUpdateService {
     private final EventRepository eventRepository;
     private final BroadcastService broadcastService;
     
-    // Only one constructor
+    // Only one constructor - the test will handle it differently
     public EventUpdateServiceImpl(EventUpdateRepository eventUpdateRepository, 
                                   EventRepository eventRepository,
                                   BroadcastService broadcastService) {
@@ -37,7 +37,8 @@ public class EventUpdateServiceImpl implements EventUpdateService {
     
     @Override
     public List<EventUpdate> getUpdatesForEvent(Long eventId) {
-        return eventUpdateRepository.findByEventIdOrderByPostedAtAsc(eventId);
+        // Use the method that exists
+        return eventUpdateRepository.findByEventIdOrderByTimestampAsc(eventId);
     }
     
     @Override

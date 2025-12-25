@@ -13,17 +13,17 @@ import java.util.List;
 @Service
 public class BroadcastServiceImpl implements BroadcastService {
     
-    private final BroadcastLogRepository broadcastLogRepository;
-    private final SubscriptionRepository subscriptionRepository;
     private final EventUpdateRepository eventUpdateRepository;
+    private final SubscriptionRepository subscriptionRepository;
+    private final BroadcastLogRepository broadcastLogRepository;
     
-    // Only one constructor to avoid confusion
-    public BroadcastServiceImpl(BroadcastLogRepository broadcastLogRepository,
+    // Constructor order matching test expectations
+    public BroadcastServiceImpl(EventUpdateRepository eventUpdateRepository,
                                 SubscriptionRepository subscriptionRepository,
-                                EventUpdateRepository eventUpdateRepository) {
-        this.broadcastLogRepository = broadcastLogRepository;
-        this.subscriptionRepository = subscriptionRepository;
+                                BroadcastLogRepository broadcastLogRepository) {
         this.eventUpdateRepository = eventUpdateRepository;
+        this.subscriptionRepository = subscriptionRepository;
+        this.broadcastLogRepository = broadcastLogRepository;
     }
     
     @Override

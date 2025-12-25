@@ -51,6 +51,16 @@ public class BroadcastLog {
         this.deliveryStatus = status.name();
     }
     
+    // Regular getter for string
+    public String getDeliveryStatusString() {
+        return deliveryStatus;
+    }
+    
+    // Regular setter for string
+    public void setDeliveryStatus(String deliveryStatus) {
+        this.deliveryStatus = deliveryStatus;
+    }
+    
     // Getters and Setters
     public Long getId() {
         return id;
@@ -74,14 +84,6 @@ public class BroadcastLog {
     
     public void setSubscriber(User subscriber) {
         this.subscriber = subscriber;
-    }
-    
-    public String getDeliveryStatusString() {
-        return deliveryStatus;
-    }
-    
-    public void setDeliveryStatus(String deliveryStatus) {
-        this.deliveryStatus = deliveryStatus;
     }
     
     public Timestamp getSentAt() {
