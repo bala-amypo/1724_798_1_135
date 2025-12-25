@@ -26,7 +26,7 @@ public class Subscription {
     public Subscription() {
     }
     
-    // Add public method for test
+    // Public method for tests
     public void onCreate() {
         subscribedAt = Timestamp.from(Instant.now());
     }

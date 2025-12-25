@@ -17,6 +17,7 @@ public class SubscriptionServiceImpl implements SubscriptionService {
     private final UserRepository userRepository;
     private final EventRepository eventRepository;
     
+    // Test expects: (SubscriptionRepository, UserRepository, EventRepository)
     public SubscriptionServiceImpl(SubscriptionRepository subscriptionRepository,
                                    UserRepository userRepository,
                                    EventRepository eventRepository) {

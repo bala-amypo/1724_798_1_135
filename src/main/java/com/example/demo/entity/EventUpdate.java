@@ -28,7 +28,7 @@ public class EventUpdate {
     public EventUpdate() {
     }
     
-    // Add public method for test
+    // Public method for tests
     public void onCreate() {
         postedAt = Timestamp.from(Instant.now());
         if (updateType == null) {
@@ -41,17 +41,16 @@ public class EventUpdate {
         onCreate();
     }
     
-    // Method for test compatibility
+    // For test compatibility
     public Timestamp getTimestamp() {
         return postedAt;
     }
     
-    // Method for test compatibility
+    // For test compatibility
     public SeverityLevel getSeverityLevel() {
-        if (updateType == null) return SeverityLevel.LOW;
         try {
             return SeverityLevel.valueOf(updateType);
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             return SeverityLevel.LOW;
         }
     }
@@ -87,11 +86,6 @@ public class EventUpdate {
     
     public void setUpdateType(String updateType) {
         this.updateType = updateType;
-    }
-    
-    // Method for test compatibility
-    public void setSeverityLevel(SeverityLevel severityLevel) {
-        this.updateType = severityLevel.name();
     }
     
     public Timestamp getPostedAt() {

@@ -30,7 +30,7 @@ public class User {
     public User() {
     }
     
-    // Add public method for test
+    // Public method for tests
     public void onCreate() {
         if (role == null || role.isEmpty()) {
             role = "SUBSCRIBER";
@@ -84,7 +84,7 @@ public class User {
         this.role = role;
     }
     
-    // Method for test compatibility
+    // For test compatibility
     public void setRole(Role role) {
         this.role = role.name();
     }

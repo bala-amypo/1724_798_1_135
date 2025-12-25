@@ -37,17 +37,17 @@ public class Event {
     public Event() {
     }
     
-    // Add public methods for test
+    // Public methods for tests
     public void onCreate() {
-        this.createdAt = Timestamp.from(Instant.now());
-        this.lastUpdatedAt = Timestamp.from(Instant.now());
-        if (this.isActive == null) {
-            this.isActive = true;
+        createdAt = Timestamp.from(Instant.now());
+        lastUpdatedAt = Timestamp.from(Instant.now());
+        if (isActive == null) {
+            isActive = true;
         }
     }
     
     public void onUpdate() {
-        this.lastUpdatedAt = Timestamp.from(Instant.now());
+        lastUpdatedAt = Timestamp.from(Instant.now());
     }
     
     @PrePersist

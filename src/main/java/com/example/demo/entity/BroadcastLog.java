@@ -37,18 +37,18 @@ public class BroadcastLog {
         }
     }
     
-    // Method for test compatibility
-    public void setDeliveryStatus(DeliveryStatus deliveryStatus) {
-        this.deliveryStatus = deliveryStatus.name();
-    }
-    
-    // Method for test compatibility
-    public DeliveryStatus getDeliveryStatusEnum() {
+    // For test compatibility
+    public DeliveryStatus getDeliveryStatus() {
         try {
             return DeliveryStatus.valueOf(deliveryStatus);
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             return DeliveryStatus.SENT;
         }
+    }
+    
+    // For test compatibility
+    public void setDeliveryStatus(DeliveryStatus status) {
+        this.deliveryStatus = status.name();
     }
     
     // Getters and Setters
@@ -76,7 +76,7 @@ public class BroadcastLog {
         this.subscriber = subscriber;
     }
     
-    public String getDeliveryStatus() {
+    public String getDeliveryStatusString() {
         return deliveryStatus;
     }
     
