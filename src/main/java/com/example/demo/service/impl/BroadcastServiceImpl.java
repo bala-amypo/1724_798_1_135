@@ -7,6 +7,7 @@ import com.example.demo.repository.BroadcastLogRepository;
 import com.example.demo.repository.EventUpdateRepository;
 import com.example.demo.repository.SubscriptionRepository;
 import com.example.demo.service.BroadcastService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -17,20 +18,11 @@ public class BroadcastServiceImpl implements BroadcastService {
     private final SubscriptionRepository subscriptionRepository;
     private final EventUpdateRepository eventUpdateRepository;
     
-    // Constructor matching test order
-    public BroadcastServiceImpl(EventUpdateRepository eventUpdateRepository,
-                                SubscriptionRepository subscriptionRepository,
-                                BroadcastLogRepository broadcastLogRepository) {
-        this.eventUpdateRepository = eventUpdateRepository;
-        this.subscriptionRepository = subscriptionRepository;
-        this.broadcastLogRepository = broadcastLogRepository;
-    }
-    
-    // Alternative constructor for production if needed
+    // Only one constructor for Spring to use
+    @Autowired
     public BroadcastServiceImpl(BroadcastLogRepository broadcastLogRepository,
                                 SubscriptionRepository subscriptionRepository,
-                                EventUpdateRepository eventUpdateRepository,
-                                boolean correctOrder) {
+                                EventUpdateRepository eventUpdateRepository) {
         this.broadcastLogRepository = broadcastLogRepository;
         this.subscriptionRepository = subscriptionRepository;
         this.eventUpdateRepository = eventUpdateRepository;
