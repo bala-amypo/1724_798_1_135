@@ -7,32 +7,25 @@ import com.example.demo.repository.BroadcastLogRepository;
 import com.example.demo.repository.EventUpdateRepository;
 import com.example.demo.repository.SubscriptionRepository;
 import com.example.demo.service.BroadcastService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
 public class BroadcastServiceImpl implements BroadcastService {
     
-    private final BroadcastLogRepository broadcastLogRepository;
-    private final SubscriptionRepository subscriptionRepository;
     private final EventUpdateRepository eventUpdateRepository;
+    private final SubscriptionRepository subscriptionRepository;
+    private final BroadcastLogRepository broadcastLogRepository;
     
-    // Constructor for test (different order)
+    // Only one constructor - matches test expectations
+    @Autowired
     public BroadcastServiceImpl(EventUpdateRepository eventUpdateRepository,
                                 SubscriptionRepository subscriptionRepository,
                                 BroadcastLogRepository broadcastLogRepository) {
         this.eventUpdateRepository = eventUpdateRepository;
         this.subscriptionRepository = subscriptionRepository;
         this.broadcastLogRepository = broadcastLogRepository;
-    }
-    
-    // Constructor for Spring with correct order
-    public BroadcastServiceImpl(BroadcastLogRepository broadcastLogRepository,
-                                SubscriptionRepository subscriptionRepository,
-                                EventUpdateRepository eventUpdateRepository) {
-        this.broadcastLogRepository = broadcastLogRepository;
-        this.subscriptionRepository = subscriptionRepository;
-        this.eventUpdateRepository = eventUpdateRepository;
     }
     
     @Override
