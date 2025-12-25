@@ -20,6 +20,11 @@ public class UserServiceImpl implements UserService {
     
     @Override
     public User registerUser(User user) {
+        return register(user);
+    }
+    
+    @Override
+    public User register(User user) {
         if (userRepository.existsByEmail(user.getEmail())) {
             throw new IllegalArgumentException("Email already exists");
         }
@@ -31,6 +36,11 @@ public class UserServiceImpl implements UserService {
     public User getUserById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
+    }
+    
+    @Override
+    public User findById(Long id) {
+        return getUserById(id);
     }
     
     @Override

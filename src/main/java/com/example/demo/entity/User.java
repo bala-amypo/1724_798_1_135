@@ -30,12 +30,17 @@ public class User {
     public User() {
     }
     
-    @PrePersist
-    protected void onCreate() {
+    // Add public method for test
+    public void onCreate() {
         if (role == null || role.isEmpty()) {
             role = "SUBSCRIBER";
         }
         createdAt = Timestamp.from(Instant.now());
+    }
+    
+    @PrePersist
+    protected void prePersist() {
+        onCreate();
     }
     
     // Getters and Setters
@@ -77,6 +82,11 @@ public class User {
     
     public void setRole(String role) {
         this.role = role;
+    }
+    
+    // Method for test compatibility
+    public void setRole(Role role) {
+        this.role = role.name();
     }
     
     public Timestamp getCreatedAt() {

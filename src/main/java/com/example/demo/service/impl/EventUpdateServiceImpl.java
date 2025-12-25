@@ -17,6 +17,13 @@ public class EventUpdateServiceImpl implements EventUpdateService {
     private final BroadcastService broadcastService;
     
     public EventUpdateServiceImpl(EventUpdateRepository eventUpdateRepository, 
+                                  EventRepository eventRepository) {
+        this.eventUpdateRepository = eventUpdateRepository;
+        this.eventRepository = eventRepository;
+        this.broadcastService = null;
+    }
+    
+    public EventUpdateServiceImpl(EventUpdateRepository eventUpdateRepository, 
                                   EventRepository eventRepository,
                                   BroadcastService broadcastService) {
         this.eventUpdateRepository = eventUpdateRepository;
@@ -30,7 +37,11 @@ public class EventUpdateServiceImpl implements EventUpdateService {
                 .orElseThrow(() -> new IllegalArgumentException("Event not found"));
         update.setEvent(event);
         EventUpdate savedUpdate = eventUpdateRepository.save(update);
-        broadcastService.triggerBroadcast(savedUpdate.getId());
+        
+        // Call broadcast if available
+        if (broadcastService != null) {
+            broadcastService.triggerBroadcast(savedUpdate.getId());
+        }
         return savedUpdate;
     }
     

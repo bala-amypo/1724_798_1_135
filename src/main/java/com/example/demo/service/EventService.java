@@ -9,4 +9,6 @@ public interface EventService {
     Event getEventById(Long id);
     List<Event> getActiveEvents();
     void deactivateEvent(Long id);
+    // Add method from test
+    Event getById(Long id);
 }

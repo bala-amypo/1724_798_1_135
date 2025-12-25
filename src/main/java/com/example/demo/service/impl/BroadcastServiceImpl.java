@@ -27,6 +27,11 @@ public class BroadcastServiceImpl implements BroadcastService {
     
     @Override
     public void triggerBroadcast(Long updateId) {
+        broadcastUpdate(updateId);
+    }
+    
+    @Override
+    public void broadcastUpdate(Long updateId) {
         EventUpdate update = eventUpdateRepository.findById(updateId)
                 .orElseThrow(() -> new IllegalArgumentException("Event update not found"));
         
@@ -38,6 +43,22 @@ public class BroadcastServiceImpl implements BroadcastService {
             log.setSubscriber(subscription.getUser());
             log.setDeliveryStatus("SENT");
             broadcastLogRepository.save(log);
+        }
+    }
+    
+    @Override
+    public void recordDelivery(Long updateId, Long userId, boolean failed) {
+        EventUpdate update = eventUpdateRepository.findById(updateId)
+                .orElseThrow(() -> new IllegalArgumentException("Event update not found"));
+        
+        // Find the log for this update and user
+        List<BroadcastLog> logs = broadcastLogRepository.findByEventUpdateId(updateId);
+        for (BroadcastLog log : logs) {
+            if (log.getSubscriber().getId().equals(userId)) {
+                log.setDeliveryStatus(failed ? "FAILED" : "SENT");
+                broadcastLogRepository.save(log);
+                break;
+            }
         }
     }
     

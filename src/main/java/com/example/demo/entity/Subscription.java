@@ -26,9 +26,14 @@ public class Subscription {
     public Subscription() {
     }
     
-    @PrePersist
-    protected void onCreate() {
+    // Add public method for test
+    public void onCreate() {
         subscribedAt = Timestamp.from(Instant.now());
+    }
+    
+    @PrePersist
+    protected void prePersist() {
+        onCreate();
     }
     
     // Getters and Setters

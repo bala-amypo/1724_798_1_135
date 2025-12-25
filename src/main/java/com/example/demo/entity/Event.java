@@ -37,18 +37,27 @@ public class Event {
     public Event() {
     }
     
-    @PrePersist
-    protected void onCreate() {
-        createdAt = Timestamp.from(Instant.now());
-        lastUpdatedAt = Timestamp.from(Instant.now());
-        if (isActive == null) {
-            isActive = true;
+    // Add public methods for test
+    public void onCreate() {
+        this.createdAt = Timestamp.from(Instant.now());
+        this.lastUpdatedAt = Timestamp.from(Instant.now());
+        if (this.isActive == null) {
+            this.isActive = true;
         }
     }
     
+    public void onUpdate() {
+        this.lastUpdatedAt = Timestamp.from(Instant.now());
+    }
+    
+    @PrePersist
+    protected void prePersist() {
+        onCreate();
+    }
+    
     @PreUpdate
-    protected void onUpdate() {
-        lastUpdatedAt = Timestamp.from(Instant.now());
+    protected void preUpdate() {
+        onUpdate();
     }
     
     // Getters and Setters

@@ -28,11 +28,31 @@ public class EventUpdate {
     public EventUpdate() {
     }
     
-    @PrePersist
-    protected void onCreate() {
+    // Add public method for test
+    public void onCreate() {
         postedAt = Timestamp.from(Instant.now());
         if (updateType == null) {
             updateType = "INFO";
+        }
+    }
+    
+    @PrePersist
+    protected void prePersist() {
+        onCreate();
+    }
+    
+    // Method for test compatibility
+    public Timestamp getTimestamp() {
+        return postedAt;
+    }
+    
+    // Method for test compatibility
+    public SeverityLevel getSeverityLevel() {
+        if (updateType == null) return SeverityLevel.LOW;
+        try {
+            return SeverityLevel.valueOf(updateType);
+        } catch (IllegalArgumentException e) {
+            return SeverityLevel.LOW;
         }
     }
     
@@ -67,6 +87,11 @@ public class EventUpdate {
     
     public void setUpdateType(String updateType) {
         this.updateType = updateType;
+    }
+    
+    // Method for test compatibility
+    public void setSeverityLevel(SeverityLevel severityLevel) {
+        this.updateType = severityLevel.name();
     }
     
     public Timestamp getPostedAt() {
