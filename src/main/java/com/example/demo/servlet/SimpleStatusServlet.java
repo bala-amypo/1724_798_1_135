@@ -11,13 +11,11 @@ import java.io.PrintWriter;
 public class SimpleStatusServlet extends HttpServlet {
     
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) 
-            throws IOException {
-        response.setContentType("text/plain");
-        response.setStatus(200);
-        
-        PrintWriter out = response.getWriter();
-        out.print("OK");
-        out.flush();
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        resp.setStatus(200);
+        resp.setContentType("text/plain");
+        PrintWriter writer = resp.getWriter();
+        writer.write("OK");
+        writer.flush();
     }
 }
