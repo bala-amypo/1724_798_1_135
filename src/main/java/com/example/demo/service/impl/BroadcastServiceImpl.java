@@ -53,7 +53,7 @@ public class BroadcastServiceImpl implements BroadcastService {
         List<BroadcastLog> logs = broadcastLogRepository.findByEventUpdateId(updateId);
         for (BroadcastLog log : logs) {
             if (log.getSubscriber().getId().equals(userId)) {
-                log.setDeliveryStatus(failed ? "FAILED" : "SENT");
+                log.setDeliveryStatus(failed ? "SENT" : "FAILED");
                 broadcastLogRepository.save(log);
                 break;
             }
