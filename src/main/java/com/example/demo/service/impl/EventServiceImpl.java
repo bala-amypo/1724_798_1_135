@@ -14,7 +14,6 @@ public class EventServiceImpl implements EventService {
     private final EventRepository eventRepository;
     private final UserRepository userRepository;
     
-    // Test expects: (EventRepository, UserRepository)
     public EventServiceImpl(EventRepository eventRepository, UserRepository userRepository) {
         this.eventRepository = eventRepository;
         this.userRepository = userRepository;
@@ -25,8 +24,9 @@ public class EventServiceImpl implements EventService {
         User publisher = userRepository.findById(event.getPublisher().getId())
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
         
-        String role = publisher.getRole();
-        if (!role.equals("PUBLISHER") && !role.equals("ADMIN")) {
+        // Check if role is PUBLISHER or ADMIN
+        if (publisher.getRole() != com.example.demo.entity.Role.PUBLISHER && 
+            publisher.getRole() != com.example.demo.entity.Role.ADMIN) {
             throw new IllegalArgumentException("Only PUBLISHER or ADMIN can create events");
         }
         

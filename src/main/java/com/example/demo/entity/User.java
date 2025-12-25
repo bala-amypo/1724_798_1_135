@@ -21,8 +21,8 @@ public class User {
     private String password;
     
     @Column(nullable = false)
-    @Enumerated(EnumType.STRING)  // Add this annotation
-    private Role role = Role.SUBSCRIBER;  // Set default value
+    @Enumerated(EnumType.STRING)
+    private Role role = Role.SUBSCRIBER;
     
     @Column(nullable = false)
     private Instant createdAt;
@@ -33,7 +33,7 @@ public class User {
     // Public method for tests
     public void onCreate() {
         if (role == null) {
-            role = Role.SUBSCRIBER;  // Set to enum, not string
+            role = Role.SUBSCRIBER;
         }
         createdAt = Instant.now();
     }
@@ -84,10 +84,10 @@ public class User {
         this.role = role;
     }
     
-    // Keep string setter for compatibility
+    // String setter for DTO compatibility
     public void setRole(String role) {
         try {
-            this.role = Role.valueOf(role);
+            this.role = Role.valueOf(role.toUpperCase());
         } catch (IllegalArgumentException e) {
             this.role = Role.SUBSCRIBER;
         }

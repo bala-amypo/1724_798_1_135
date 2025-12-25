@@ -33,12 +33,21 @@ public class AuthController {
         user.setFullName(request.getFullName());
         user.setEmail(request.getEmail());
         user.setPassword(request.getPassword());
-        user.setRole(request.getRole());
+        // Convert string to Role enum
+        if (request.getRole() != null) {
+            try {
+                user.setRole(com.example.demo.entity.Role.valueOf(request.getRole()));
+            } catch (IllegalArgumentException e) {
+                user.setRole(com.example.demo.entity.Role.SUBSCRIBER);
+            }
+        } else {
+            user.setRole(com.example.demo.entity.Role.SUBSCRIBER);
+        }
         
         User savedUser = userService.registerUser(user);
         
-        String token = jwtUtil.generateToken(savedUser.getId(), savedUser.getEmail(), savedUser.getRole());
-        return ResponseEntity.ok(new LoginResponse(token, savedUser.getEmail(), savedUser.getRole()));
+        String token = jwtUtil.generateToken(savedUser.getId(), savedUser.getEmail(), savedUser.getRole().name());
+        return ResponseEntity.ok(new LoginResponse(token, savedUser.getEmail(), savedUser.getRole().name()));
     }
     
     @PostMapping("/login")
@@ -49,7 +58,7 @@ public class AuthController {
             return ResponseEntity.badRequest().body("Invalid credentials");
         }
         
-        String token = jwtUtil.generateToken(user.getId(), user.getEmail(), user.getRole());
-        return ResponseEntity.ok(new LoginResponse(token, user.getEmail(), user.getRole()));
+        String token = jwtUtil.generateToken(user.getId(), user.getEmail(), user.getRole().name());
+        return ResponseEntity.ok(new LoginResponse(token, user.getEmail(), user.getRole().name()));
     }
 }
