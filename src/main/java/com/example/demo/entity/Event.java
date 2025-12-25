@@ -2,50 +2,133 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 import java.sql.Timestamp;
+import java.time.Instant;
 
 @Entity
 @Table(name = "events")
 public class Event {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
+    @Column(nullable = false)
     private String title;
+    
     private String description;
+    
     private String location;
+    
     private String category;
     
     @ManyToOne
-    @JoinColumn(name = "publisher_id")
+    @JoinColumn(name = "publisher_id", nullable = false)
     private User publisher;
     
-    @Column(name = "is_active")
+    @Column(nullable = false)
     private Boolean isActive = true;
     
-    @Column(name = "created_at")
+    @Column(nullable = false)
     private Timestamp createdAt;
     
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    @Column(nullable = false)
+    private Timestamp lastUpdatedAt;
     
-    public String getTitle() { return title; }
-    public void setTitle(String title) { this.title = title; }
+    public Event() {
+    }
     
-    public String getDescription() { return description; }
-    public void setDescription(String description) { this.description = description; }
+    @PrePersist
+    protected void onCreate() {
+        createdAt = Timestamp.from(Instant.now());
+        lastUpdatedAt = Timestamp.from(Instant.now());
+        if (isActive == null) {
+            isActive = true;
+        }
+    }
     
-    public String getLocation() { return location; }
-    public void setLocation(String location) { this.location = location; }
+    @PreUpdate
+    protected void onUpdate() {
+        lastUpdatedAt = Timestamp.from(Instant.now());
+    }
     
-    public String getCategory() { return category; }
-    public void setCategory(String category) { this.category = category; }
+    // Getters and Setters
+    public Long getId() {
+        return id;
+    }
     
-    public User getPublisher() { return publisher; }
-    public void setPublisher(User publisher) { this.publisher = publisher; }
+    public void setId(Long id) {
+        this.id = id;
+    }
     
-    public Boolean getIsActive() { return isActive; }
-    public void setIsActive(Boolean isActive) { this.isActive = isActive; }
+    public String getTitle() {
+        return title;
+    }
     
-    public Timestamp getCreatedAt() { return createdAt; }
-    public void setCreatedAt(Timestamp createdAt) { this.createdAt = createdAt; }
+    public void setTitle(String title) {
+        this.title = title;
+    }
+    
+    public String getDescription() {
+        return description;
+    }
+    
+    public void setDescription(String description) {
+        this.description = description;
+    }
+    
+    public String getLocation() {
+        return location;
+    }
+    
+    public void setLocation(String location) {
+        this.location = location;
+    }
+    
+    public String getCategory() {
+        return category;
+    }
+    
+    public void setCategory(String category) {
+        this.category = category;
+    }
+    
+    public User getPublisher() {
+        return publisher;
+    }
+    
+    public void setPublisher(User publisher) {
+        this.publisher = publisher;
+    }
+    
+    public Boolean getIsActive() {
+        return isActive;
+    }
+    
+    public boolean isActive() {
+        return isActive != null && isActive;
+    }
+    
+    public void setIsActive(Boolean isActive) {
+        this.isActive = isActive;
+    }
+    
+    public void setActive(boolean active) {
+        this.isActive = active;
+    }
+    
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+    
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
+    
+    public Timestamp getLastUpdatedAt() {
+        return lastUpdatedAt;
+    }
+    
+    public void setLastUpdatedAt(Timestamp lastUpdatedAt) {
+        this.lastUpdatedAt = lastUpdatedAt;
+    }
 }
