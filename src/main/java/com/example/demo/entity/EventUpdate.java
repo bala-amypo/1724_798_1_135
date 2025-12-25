@@ -22,15 +22,15 @@ public class EventUpdate {
     @Column(nullable = false)
     private String updateType; // INFO, WARNING, CRITICAL
     
-    @Column(nullable = false)
-    private Timestamp postedAt;
+    @Column(name = "posted_at", nullable = false)
+    private Timestamp timestamp; // Rename postedAt to timestamp for test compatibility
     
     public EventUpdate() {
     }
     
     // Public method for tests
     public void onCreate() {
-        postedAt = Timestamp.from(Instant.now());
+        timestamp = Timestamp.from(Instant.now());
         if (updateType == null) {
             updateType = "INFO";
         }
@@ -41,9 +41,13 @@ public class EventUpdate {
         onCreate();
     }
     
-    // For test compatibility
-    public Timestamp getTimestamp() {
-        return postedAt;
+    // For test compatibility - keep getPostedAt for existing code
+    public Timestamp getPostedAt() {
+        return timestamp;
+    }
+    
+    public void setPostedAt(Timestamp postedAt) {
+        this.timestamp = postedAt;
     }
     
     // For test compatibility
@@ -53,6 +57,11 @@ public class EventUpdate {
         } catch (Exception e) {
             return SeverityLevel.LOW;
         }
+    }
+    
+    // For test compatibility
+    public void setSeverityLevel(SeverityLevel severityLevel) {
+        this.updateType = severityLevel.name();
     }
     
     // Getters and Setters
@@ -88,11 +97,11 @@ public class EventUpdate {
         this.updateType = updateType;
     }
     
-    public Timestamp getPostedAt() {
-        return postedAt;
+    public Timestamp getTimestamp() {
+        return timestamp;
     }
     
-    public void setPostedAt(Timestamp postedAt) {
-        this.postedAt = postedAt;
+    public void setTimestamp(Timestamp timestamp) {
+        this.timestamp = timestamp;
     }
 }

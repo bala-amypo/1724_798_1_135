@@ -5,35 +5,49 @@ import java.sql.Timestamp;
 import java.time.Instant;
 
 @Entity
-@Table(name = "event_updates")
-public class EventUpdate {
+@Table(name = "events")
+public class Event {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
+    @Column(nullable = false)
+    private String title;
+    
+    private String description;
+    
+    private String location;
+    
+    private String category;
+    
     @ManyToOne
-    @JoinColumn(name = "event_id", nullable = false)
-    private Event event;
+    @JoinColumn(name = "publisher_id", nullable = false)
+    private User publisher;
     
     @Column(nullable = false)
-    private String updateContent;
+    private Boolean isActive = true;
     
     @Column(nullable = false)
-    private String updateType; // INFO, WARNING, CRITICAL
+    private Timestamp createdAt;
     
-    @Column(name = "posted_at", nullable = false)
-    private Timestamp timestamp; // Rename postedAt to timestamp for test compatibility
+    @Column(nullable = false)
+    private Timestamp lastUpdatedAt;
     
-    public EventUpdate() {
+    public Event() {
     }
     
-    // Public method for tests
+    // Public methods for tests
     public void onCreate() {
-        timestamp = Timestamp.from(Instant.now());
-        if (updateType == null) {
-            updateType = "INFO";
+        createdAt = Timestamp.from(Instant.now());
+        lastUpdatedAt = Timestamp.from(Instant.now());
+        if (isActive == null) {
+            isActive = true;
         }
+    }
+    
+    public void onUpdate() {
+        lastUpdatedAt = Timestamp.from(Instant.now());
     }
     
     @PrePersist
@@ -41,27 +55,9 @@ public class EventUpdate {
         onCreate();
     }
     
-    // For test compatibility - keep getPostedAt for existing code
-    public Timestamp getPostedAt() {
-        return timestamp;
-    }
-    
-    public void setPostedAt(Timestamp postedAt) {
-        this.timestamp = postedAt;
-    }
-    
-    // For test compatibility
-    public SeverityLevel getSeverityLevel() {
-        try {
-            return SeverityLevel.valueOf(updateType);
-        } catch (Exception e) {
-            return SeverityLevel.LOW;
-        }
-    }
-    
-    // For test compatibility
-    public void setSeverityLevel(SeverityLevel severityLevel) {
-        this.updateType = severityLevel.name();
+    @PreUpdate
+    protected void preUpdate() {
+        onUpdate();
     }
     
     // Getters and Setters
@@ -73,35 +69,75 @@ public class EventUpdate {
         this.id = id;
     }
     
-    public Event getEvent() {
-        return event;
+    public String getTitle() {
+        return title;
     }
     
-    public void setEvent(Event event) {
-        this.event = event;
+    public void setTitle(String title) {
+        this.title = title;
     }
     
-    public String getUpdateContent() {
-        return updateContent;
+    public String getDescription() {
+        return description;
     }
     
-    public void setUpdateContent(String updateContent) {
-        this.updateContent = updateContent;
+    public void setDescription(String description) {
+        this.description = description;
     }
     
-    public String getUpdateType() {
-        return updateType;
+    public String getLocation() {
+        return location;
     }
     
-    public void setUpdateType(String updateType) {
-        this.updateType = updateType;
+    public void setLocation(String location) {
+        this.location = location;
     }
     
-    public Timestamp getTimestamp() {
-        return timestamp;
+    public String getCategory() {
+        return category;
     }
     
-    public void setTimestamp(Timestamp timestamp) {
-        this.timestamp = timestamp;
+    public void setCategory(String category) {
+        this.category = category;
+    }
+    
+    public User getPublisher() {
+        return publisher;
+    }
+    
+    public void setPublisher(User publisher) {
+        this.publisher = publisher;
+    }
+    
+    public Boolean getIsActive() {
+        return isActive;
+    }
+    
+    public boolean isActive() {
+        return isActive != null && isActive;
+    }
+    
+    public void setIsActive(Boolean isActive) {
+        this.isActive = isActive;
+    }
+    
+    public void setActive(boolean active) {
+        this.isActive = active;
+    }
+    
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+    
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
+    
+    public Timestamp getLastUpdatedAt() {
+        return lastUpdatedAt;
+    }
+    
+    public void setLastUpdatedAt(Timestamp lastUpdatedAt) {
+        this.lastUpdatedAt = lastUpdatedAt;
     }
 }
