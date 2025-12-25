@@ -3,6 +3,7 @@ package com.example.demo.entity;
 import jakarta.persistence.*;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "events")
@@ -58,6 +59,11 @@ public class Event {
     @PreUpdate
     protected void preUpdate() {
         onUpdate();
+    }
+    
+    // Method for test compatibility - get LastUpdatedAt as Instant
+    public Instant getLastUpdatedAtAsInstant() {
+        return lastUpdatedAt.toInstant();
     }
     
     // Getters and Setters
