@@ -12,6 +12,7 @@ public class RegisterRequest {
         return fullName;
     }
     
+    @NotBlank
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
