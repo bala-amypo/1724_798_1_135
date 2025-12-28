@@ -66,10 +66,10 @@ public class EventServiceImpl implements EventService {
         return getEventById(id);
     }
     
-    // @Override
-    // public List<Event> getActiveEvents() {
-    //     return eventRepository.findByIsActiveTrue();
-    // }
+    @Override
+    public List<Event> getActiveEvents() {
+        return eventRepository.findByIsActiveTrue();
+    }
     
     @Override
     public void deactivateEvent(Long id) {
