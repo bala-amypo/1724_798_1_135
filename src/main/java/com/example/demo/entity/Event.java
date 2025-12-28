@@ -2,6 +2,7 @@ package com.example.demo.entity;
 
 import jakarta.persistence.*;
 import java.time.Instant;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "events")
@@ -22,6 +23,7 @@ public class Event {
     
     @ManyToOne
     @JoinColumn(name = "publisher_id", nullable = false)
+    @JsonIgnoreProperties({"events", "password"})
     private User publisher;
     
     @Column(nullable = false)
