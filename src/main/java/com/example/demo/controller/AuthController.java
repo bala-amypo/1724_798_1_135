@@ -49,7 +49,7 @@ public class AuthController {
         //String token = jwtUtil.generateToken(savedUser.getId(), savedUser.getEmail(), savedUser.getRole().name());
         //return ResponseEntity.ok(new LoginResponse(savedUser.getEmail(), savedUser.getRole().name()));
 
-        return ResponseEntity.ok(new RegisterResponse(savedUser.getFullName() , savedUser.getEmail(), savedUser.getRole().name()));
+        return ResponseEntity.ok(new RegisterResponse(savedUser.getId() , savedUser.getFullName() , savedUser.getEmail(), savedUser.getRole().name()));
     }
     
     @PostMapping("/login")
