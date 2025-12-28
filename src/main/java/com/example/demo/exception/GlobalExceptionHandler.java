@@ -63,18 +63,18 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
     
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleGlobalException(
-            Exception ex, WebRequest request) {
-        ErrorResponse errorResponse = new ErrorResponse(
-            LocalDateTime.now(),
-            HttpStatus.INTERNAL_SERVER_ERROR.value(),
-            "Internal Server Error",
-            "An unexpected error occurred",
-            request.getDescription(false)
-        );
-        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+    // @ExceptionHandler(Exception.class)
+    // public ResponseEntity<ErrorResponse> handleGlobalException(
+    //         Exception ex, WebRequest request) {
+    //     ErrorResponse errorResponse = new ErrorResponse(
+    //         LocalDateTime.now(),
+    //         HttpStatus.INTERNAL_SERVER_ERROR.value(),
+    //         "Internal Server Error",
+    //         "An unexpected error occurred",
+    //         request.getDescription(false)
+    //     );
+    //     return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    // }
     
     public static class ErrorResponse {
         private LocalDateTime timestamp;
