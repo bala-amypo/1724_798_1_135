@@ -11,7 +11,6 @@ public class LoginResponse {
         this.role = role;
     }
     
-    // Getters
     public String getToken() {
         return token;
     }
