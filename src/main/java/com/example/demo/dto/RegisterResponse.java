@@ -1,5 +1,5 @@
 package com.example.demo.dto;
-import com.example.demo.User;
+
 
 
 public class RegisterResponse {
@@ -8,19 +8,19 @@ public class RegisterResponse {
     private String password;
     private String role;
     private Long id;
-    User user = new User();
+    
 
     
    public RegisterResponse(Long id , String fullName , String email, String role)
    {
-       this.id = user.get
+       this.id = id;
        this.fullName = fullName;
        this.email = email;
        this.role = role;
 
    }
      
-    public String getId()
+    public Long getId()
     {
         return id;
     } 
