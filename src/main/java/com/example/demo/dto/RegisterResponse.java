@@ -3,11 +3,13 @@ package com.example.demo.dto;
 
 
 public class RegisterResponse {
+   
+    private Long id;
     private String fullName;
     private String email;
     private String password;
     private String role;
-    private Long id;
+    
     
 
     
