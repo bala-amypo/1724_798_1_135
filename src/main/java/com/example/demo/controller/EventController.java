@@ -36,11 +36,11 @@ public class EventController {
         return ResponseEntity.ok(event);
     }
     
-    @GetMapping("/active")
-    public ResponseEntity<List<Event>> getActiveEvents() {
-        List<Event> events = eventService.getActiveEvents();
-        return ResponseEntity.ok(events);
-    }
+    // @GetMapping("/active")
+    // public ResponseEntity<List<Event>> getActiveEvents() {
+    //     List<Event> events = eventService.getActiveEvents();
+    //     return ResponseEntity.ok(events);
+    // }
     
     @PatchMapping("/{id}/deactivate")
     public ResponseEntity<Void> deactivateEvent(@PathVariable Long id) {
