@@ -33,7 +33,6 @@ public class AuthController {
         user.setFullName(request.getFullName());
         user.setEmail(request.getEmail());
         user.setPassword(request.getPassword());
-        // Convert string to Role enum
         if (request.getRole() != null) {
             try {
                 user.setRole(com.example.demo.entity.Role.valueOf(request.getRole()));
