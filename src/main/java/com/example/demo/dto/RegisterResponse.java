@@ -7,7 +7,13 @@ public class RegisterResponse {
     private String role;
 
     
-   public RegisterR
+   public RegisterResponse(String fullName , String email, String role)
+   {
+       this.fullName = fullName;
+       this.email = email;
+       this.role = role;
+
+   }
 
     
     public String getFullName() {
@@ -18,12 +24,6 @@ public class RegisterResponse {
     
     public String getEmail() {
         return email;
-    }
-    
-  
-    
-    public String getPassword() {
-        return password;
     }
     
 

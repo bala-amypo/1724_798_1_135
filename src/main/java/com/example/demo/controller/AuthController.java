@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.dto.LoginRequest;
 import com.example.demo.dto.LoginResponse;
 import com.example.demo.dto.RegisterRequest;
+import com.exam
 import com.example.demo.entity.User;
 import com.example.demo.security.JwtUtil;
 import com.example.demo.service.UserService;
@@ -48,7 +49,7 @@ public class AuthController {
         //String token = jwtUtil.generateToken(savedUser.getId(), savedUser.getEmail(), savedUser.getRole().name());
         //return ResponseEntity.ok(new LoginResponse(savedUser.getEmail(), savedUser.getRole().name()));
 
-        return ResponseEntity.ok(new RegisterRequest(savedUser.getFullName() , savedUser.getEmail(), savedUser.getRole().name()));
+        return ResponseEntity.ok(new RegisterResponse(savedUser.getFullName() , savedUser.getEmail(), savedUser.getRole().name()));
     }
     
     @PostMapping("/login")
