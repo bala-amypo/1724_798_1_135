@@ -3,6 +3,7 @@ import jakarta.validation.constraints.NotBlank;
 
 
 public class RegisterRequest {
+    @NotBlank(message = "Name must not be blank")
     private String fullName;
     private String email;
     private String password;
@@ -14,7 +15,6 @@ public class RegisterRequest {
         return fullName;
     }
     
-    @NotBlank(m)
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
