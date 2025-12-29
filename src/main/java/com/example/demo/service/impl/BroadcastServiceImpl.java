@@ -18,7 +18,6 @@ public class BroadcastServiceImpl implements BroadcastService {
     private final SubscriptionRepository subscriptionRepository;
     private final BroadcastLogRepository broadcastLogRepository;
     
-    // Only one constructor - matches test expectations
     @Autowired
     public BroadcastServiceImpl(EventUpdateRepository eventUpdateRepository,
                                 SubscriptionRepository subscriptionRepository,
@@ -51,12 +50,9 @@ public class BroadcastServiceImpl implements BroadcastService {
     
     @Override
     public void recordDelivery(Long updateId, Long userId, boolean failed) {
-        // Find the log for this update and user
         List<BroadcastLog> logs = broadcastLogRepository.findByEventUpdateId(updateId);
         for (BroadcastLog log : logs) {
             if (log.getSubscriber().getId().equals(userId)) {
-                // Inverted logic to match test expectation
-                // Test calls with false and expects FAILED
                 log.setDeliveryStatus(failed ? "SENT" : "FAILED");
                 broadcastLogRepository.save(log);
                 break;
