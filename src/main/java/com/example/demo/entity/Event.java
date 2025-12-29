@@ -37,7 +37,6 @@ public class Event {
     public Event() {
     }
     
-    // Public methods for tests
     public void onCreate() {
         createdAt = Instant.now();
         lastUpdatedAt = Instant.now();
@@ -60,7 +59,6 @@ public class Event {
         onUpdate();
     }
     
-    // Getters and Setters
     public Long getId() {
         return id;
     }

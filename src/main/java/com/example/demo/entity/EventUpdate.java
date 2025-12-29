@@ -41,7 +41,6 @@ public class EventUpdate {
         onCreate();
     }
     
-    // For test compatibility
     public SeverityLevel getSeverityLevel() {
         try {
             return SeverityLevel.valueOf(updateType);

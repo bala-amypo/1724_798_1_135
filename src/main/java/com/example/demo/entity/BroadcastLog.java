@@ -36,7 +36,6 @@ public class BroadcastLog {
         }
     }
     
-    // For test compatibility
     public DeliveryStatus getDeliveryStatus() {
         try {
             return DeliveryStatus.valueOf(deliveryStatus);
@@ -45,12 +44,10 @@ public class BroadcastLog {
         }
     }
     
-    // For test compatibility
     public void setDeliveryStatus(DeliveryStatus status) {
         this.deliveryStatus = status.name();
     }
     
-    // Getters and Setters
     public Long getId() {
         return id;
     }
