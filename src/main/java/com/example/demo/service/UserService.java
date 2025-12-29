@@ -8,7 +8,6 @@ public interface UserService {
     User getUserById(Long id);
     User findByEmail(String email);
     List<User> getAllUsers();
-    // Add the missing method from test
     User register(User user);
     User findById(Long id);
 }

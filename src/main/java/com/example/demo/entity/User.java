@@ -30,7 +30,6 @@ public class User {
     public User() {
     }
     
-    // Public method for tests
     public void onCreate() {
         if (role == null) {
             role = Role.SUBSCRIBER;
@@ -43,7 +42,6 @@ public class User {
         onCreate();
     }
     
-    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -84,7 +82,6 @@ public class User {
         this.role = role;
     }
     
-    // String setter for DTO compatibility
     public void setRole(String role) {
         try {
             this.role = Role.valueOf(role.toUpperCase());

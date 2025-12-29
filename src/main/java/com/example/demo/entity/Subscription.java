@@ -25,7 +25,6 @@ public class Subscription {
     public Subscription() {
     }
     
-    // Public method for tests
     public void onCreate() {
         subscribedAt = Instant.now();
     }
@@ -35,7 +34,6 @@ public class Subscription {
         onCreate();
     }
     
-    // Getters and Setters
     public Long getId() {
         return id;
     }

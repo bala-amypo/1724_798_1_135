@@ -118,7 +118,6 @@ public class GlobalExceptionHandler {
             this.path = path;
         }
         
-        // Getters and setters
         public LocalDateTime getTimestamp() {
             return timestamp;
         }

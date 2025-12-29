@@ -12,7 +12,6 @@ public interface EventUpdateRepository extends JpaRepository<EventUpdate, Long> 
     @Query("SELECT eu FROM EventUpdate eu WHERE eu.event.id = :eventId ORDER BY eu.timestamp ASC")
     List<EventUpdate> findByEventIdOrderByTimestampAsc(@Param("eventId") Long eventId);
     
-    // Keep both for compatibility
     @Query("SELECT eu FROM EventUpdate eu WHERE eu.event.id = :eventId ORDER BY eu.timestamp ASC")
     List<EventUpdate> findByEventIdOrderByPostedAtAsc(@Param("eventId") Long eventId);
 }
